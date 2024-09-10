@@ -1,6 +1,8 @@
 package ac.grim.grimac.manager;
 
 import ac.grim.grimac.api.AbstractCheck;
+import ac.grim.grimac.checks.Check;
+import ac.grim.grimac.checks.CheckType;
 import ac.grim.grimac.checks.impl.aim.AimDuplicateLook;
 import ac.grim.grimac.checks.impl.aim.AimModulo360;
 import ac.grim.grimac.checks.impl.aim.processor.AimProcessor;
@@ -61,6 +63,9 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CheckManager {
     private static boolean inited;
@@ -356,6 +361,13 @@ public class CheckManager {
     @SuppressWarnings("unchecked")
     public <T extends PacketCheck> T getPrePredictionCheck(Class<T> check) {
         return (T) prePredictionChecks.get(check);
+    }
+
+    public <T extends Check> List<T> getChecksByType(CheckType type) {
+        return allChecks.values().stream()
+                .map(check -> (T) check)
+                .filter(check -> check.getType().equals(type))
+                .collect(Collectors.toList());
     }
 
     private PacketEntityReplication packetEntityReplication = null;
