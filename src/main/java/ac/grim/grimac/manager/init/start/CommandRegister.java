@@ -13,7 +13,6 @@ public class CommandRegister implements Initable {
         // This does not make Grim require paper
         // It only enables new features such as asynchronous tab completion on paper
         PaperCommandManager commandManager = new PaperCommandManager(GrimAPI.INSTANCE.getPlugin());
-        commandManager.registerDependency(DynamicConfig.class, GrimAPI.INSTANCE.getConfigManager().getConfig());
 
         commandManager.registerCommand(new GrimPerf());
         commandManager.registerCommand(new GrimDebug());
