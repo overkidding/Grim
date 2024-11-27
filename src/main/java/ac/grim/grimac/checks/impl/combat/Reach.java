@@ -33,7 +33,6 @@ import com.github.retrooper.packetevents.protocol.player.ClientVersion;
 import com.github.retrooper.packetevents.protocol.player.GameMode;
 import com.github.retrooper.packetevents.util.Vector3d;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity;
-import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.bukkit.util.Vector;
@@ -108,9 +107,7 @@ public class Reach extends Check implements PacketCheck {
         }
 
         // If the player set their look, or we know they have a new tick
-        if (WrapperPlayClientPlayerFlying.isFlying(event.getPacketType()) ||
-                event.getPacketType() == PacketType.Play.Client.PONG ||
-                event.getPacketType() == PacketType.Play.Client.WINDOW_CONFIRMATION) {
+        if (isUpdate(event.getPacketType())) {
             tickBetterReachCheckWithAngle();
         }
     }
