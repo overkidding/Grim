@@ -23,8 +23,8 @@ public class JumpPower {
         vector.setY(jumpPower);
 
         if (player.isSprinting) {
-            float radRotation = player.xRot * ((float) Math.PI / 180F);
-            vector.add(new Vector(-player.trigHandler.sin(radRotation) * 0.2f, 0.0, player.trigHandler.cos(radRotation) * 0.2f));
+            float radRotation = player.xRot * ((float) Math.PI / 180);
+            vector.add(new Vector(-player.trigHandler.sin(radRotation) * 0.2, 0.0, player.trigHandler.cos(radRotation) * 0.2));
         }
     }
 
