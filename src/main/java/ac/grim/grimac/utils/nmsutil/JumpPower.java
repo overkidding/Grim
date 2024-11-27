@@ -20,7 +20,7 @@ public class JumpPower {
 
         if (player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_20_5) && jumpPower <= 1.0E-5F) return;
 
-        vector.setY(jumpPower);
+        vector.setY(player.getClientVersion().isOlderThan(ClientVersion.V_1_21_2) ? jumpPower : Math.max(jumpPower, vector.getY()));
 
         if (player.isSprinting) {
             float radRotation = player.xRot * ((float) Math.PI / 180);
