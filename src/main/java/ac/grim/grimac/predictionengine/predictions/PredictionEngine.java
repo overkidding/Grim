@@ -710,6 +710,8 @@ public class PredictionEngine {
 
         // Calculate inputs by the players known inputs on 1.21.2+
         if (player.supportsEndTick()) {
+            forwardMin = forwardMax = strafeMin = strafeMax = 0;
+
             final KnownInput knownInput = player.packetStateData.knownInput;
             if (knownInput.forward()) {
                 forwardMax += 1;
