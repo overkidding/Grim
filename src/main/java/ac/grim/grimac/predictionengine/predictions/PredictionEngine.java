@@ -714,23 +714,23 @@ public class PredictionEngine {
 
             final KnownInput knownInput = player.packetStateData.knownInput;
             if (knownInput.forward()) {
-                forwardMax += 1;
-                forwardMin += 1;
+                forwardMax++;
+                forwardMin++;
             }
 
             if (knownInput.backward() && (!player.isSprinting || player.isSwimming)) {
-                forwardMax -= 1;
-                forwardMin -= 1;
+                forwardMax--;
+                forwardMin--;
             }
 
             if (knownInput.left()) {
-                strafeMax += 1;
-                strafeMin += 1;
+                strafeMax++;
+                strafeMin++;
             }
 
             if (knownInput.right()) {
-                strafeMax -= 1;
-                strafeMin -= 1;
+                strafeMax--;
+                strafeMin--;
             }
         }
 
