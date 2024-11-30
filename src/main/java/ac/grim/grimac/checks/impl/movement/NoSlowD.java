@@ -7,7 +7,7 @@ import ac.grim.grimac.player.GrimPlayer;
 import ac.grim.grimac.utils.anticheat.update.PredictionComplete;
 import com.github.retrooper.packetevents.protocol.player.ClientVersion;
 
-@CheckData(name = "NoSlowD", setback = 5, experimental = true)
+@CheckData(name = "NoSlowD", description = "Sprinting while using an item", setback = 5, experimental = true)
 public class NoSlowD extends Check implements PostPredictionCheck {
     public NoSlowD(GrimPlayer player) {
         super(player);
