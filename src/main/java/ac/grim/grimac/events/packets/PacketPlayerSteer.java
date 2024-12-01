@@ -108,19 +108,19 @@ public class PacketPlayerSteer extends PacketListenerAbstract {
             byte forward = 0;
             byte sideways = 0;
             if (input.isForward()) {
-                forward += 1;
+                forward++;
             }
 
             if (input.isBackward()) {
-                forward -= 1;
+                forward--;
             }
 
             if (input.isLeft()) {
-                sideways += 1;
+                sideways++;
             }
 
             if (input.isRight()) {
-                sideways -= 1;
+                sideways--;
             }
 
             player.vehicleData.nextVehicleForward = forward * 0.98f;
