@@ -38,7 +38,7 @@ public class Check extends GrimProcessor implements AbstractCheck {
     private boolean noSetbackPermission;
     private boolean noModifyPacketPermission;
 
-    private CheckType type = CheckType.OTHER;
+    private CheckType type;
 
     @Override
     public boolean isExperimental() {
