@@ -571,6 +571,10 @@ public class GrimPlayer implements GrimUser {
                 || compensatedEntities.getSelf().inVehicle();
     }
 
+    public boolean inVehicle() {
+        return compensatedEntities.getSelf().inVehicle();
+    }
+
     public boolean canThePlayerBeCloseToZeroMovement(int ticks) {
         return (!uncertaintyHandler.lastPointThree.hasOccurredSince(ticks));
     }
