@@ -242,6 +242,7 @@ public class GrimPlayer implements GrimUser {
 
         packetStateData = new PacketStateData();
 
+        uncertaintyHandler.riptideEntities.add(0);
         uncertaintyHandler.collidingEntities.add(0);
 
         if (getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_14)) {
@@ -292,7 +293,7 @@ public class GrimPlayer implements GrimUser {
         // If the player has that client sided riptide thing and has colliding with an entity
         // This was determined in the previous tick but whatever just include the 2 ticks around it
         // for a bit of safety as I doubt people will try to bypass this, it would be a very useless cheat
-        if (riptideSpinAttackTicks >= 0 && Collections.max(uncertaintyHandler.collidingEntities) > 0) {
+        if (riptideSpinAttackTicks >= 0 && Collections.max(uncertaintyHandler.riptideEntities) > 0) {
             possibleMovements.add(new VectorData(clientVelocity.clone().multiply(-0.2), VectorData.VectorType.Trident));
         }
 
@@ -573,6 +574,10 @@ public class GrimPlayer implements GrimUser {
                 || compensatedEntities.getSelf().inVehicle();
     }
 
+    public boolean inVehicle() {
+        return compensatedEntities.getSelf().inVehicle();
+    }
+
     public boolean canThePlayerBeCloseToZeroMovement(int ticks) {
         return (!uncertaintyHandler.lastPointThree.hasOccurredSince(ticks));
     }
@@ -759,6 +764,7 @@ public class GrimPlayer implements GrimUser {
     @Getter private boolean ignoreDuplicatePacketRotation = false;
     @Getter private boolean experimentalChecks = false;
     @Getter private boolean cancelDuplicatePacket = true;
+    @Getter private boolean exemptElytra = false;
 
     @Override
     public void reload(ConfigManager config) {
@@ -767,6 +773,7 @@ public class GrimPlayer implements GrimUser {
         experimentalChecks = config.getBooleanElse("experimental-checks", false);
         ignoreDuplicatePacketRotation = config.getBooleanElse("ignore-duplicate-packet-rotation", false);
         cancelDuplicatePacket = config.getBooleanElse("cancel-duplicate-packet", true);
+        exemptElytra = config.getBooleanElse("exempt-elytra", false);
         // reload all checks
         for (AbstractCheck value : checkManager.allChecks.values()) value.reload(config);
         // reload punishment manager

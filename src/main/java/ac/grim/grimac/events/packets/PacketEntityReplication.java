@@ -97,10 +97,9 @@ public class PacketEntityReplication extends Check implements PacketCheck {
         }
         else if (event.getPacketType() == PacketType.Play.Server.SPAWN_PAINTING) {
             WrapperPlayServerSpawnPainting packetOutEntity = new WrapperPlayServerSpawnPainting(event);
-            addEntity(packetOutEntity.getEntityId(), packetOutEntity.getUUID(), EntityTypes.PAINTING, packetOutEntity.getPosition().toVector3d(), packetOutEntity.getDirection().getHorizontalIndex(), 0f, null, packetOutEntity.getType().isPresent() ? packetOutEntity.getType().get().getId() : -1);
+            addEntity(packetOutEntity.getEntityId(), packetOutEntity.getUUID(), EntityTypes.PAINTING, packetOutEntity.getPosition().toVector3d(), 0, 0f, null, packetOutEntity.getDirection().getHorizontalIndex());
         }
-
-        else if (event.getPacketType() == PacketType.Play.Server.ENTITY_RELATIVE_MOVE) {
+        else if (event.getPacketType() == PacketType.Play.Server.ENTITY_RELATIVE_MOVE
             WrapperPlayServerEntityRelativeMove move = new WrapperPlayServerEntityRelativeMove(event);
             handleMoveEntity(event, move.getEntityId(), move.getDeltaX(), move.getDeltaY(), move.getDeltaZ(), null, null, true, true);
         }
