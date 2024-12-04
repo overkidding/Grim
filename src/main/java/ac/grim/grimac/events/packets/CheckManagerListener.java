@@ -453,8 +453,8 @@ public class CheckManagerListener extends PacketListenerAbstract {
         }
 
         if (event.getPacketType() == PacketType.Play.Client.PLAYER_DIGGING) {
-            final var packet = new WrapperPlayClientPlayerDigging(event);
-            final var blockBreak = new BlockBreak(packet, player);
+            final WrapperPlayClientPlayerDigging packet = new WrapperPlayClientPlayerDigging(event);
+            final BlockBreak blockBreak = new BlockBreak(packet, player);
 
             player.checkManager.getPacketCheck(BadPacketsX.class).handle(blockBreak);
             player.checkManager.getPacketCheck(BadPacketsZ.class).handle(blockBreak);

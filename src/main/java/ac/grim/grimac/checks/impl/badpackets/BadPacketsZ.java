@@ -41,7 +41,7 @@ public class BadPacketsZ extends Check implements PacketCheck {
 
     public void handle(BlockBreak blockBreak) {
         if (blockBreak.action == DiggingAction.START_DIGGING) {
-            final var pos = blockBreak.position;
+            final Vector3i pos = blockBreak.position;
 
             lastBlockWasInstantBreak = getBlockDamage(player, pos) >= 1;
             lastCancelledBlock = null;
@@ -50,7 +50,7 @@ public class BadPacketsZ extends Check implements PacketCheck {
         }
 
         if (blockBreak.action == DiggingAction.CANCELLED_DIGGING) {
-            final var pos = blockBreak.position;
+            final Vector3i pos = blockBreak.position;
 
             if (shouldExempt(pos)) {
                 lastCancelledBlock = pos;
@@ -78,7 +78,7 @@ public class BadPacketsZ extends Check implements PacketCheck {
         }
 
         if (blockBreak.action == DiggingAction.FINISHED_DIGGING) {
-            final var pos = blockBreak.position;
+            final Vector3i pos = blockBreak.position;
 
             // when a player looks away from the mined block, they send a cancel, and if they look at it again, they don't send another start. (thanks mojang!)
             if (!pos.equals(lastCancelledBlock) && (!lastBlockWasInstantBreak || player.getClientVersion().isOlderThan(ClientVersion.V_1_14_4)) && !pos.equals(lastBlock)) {

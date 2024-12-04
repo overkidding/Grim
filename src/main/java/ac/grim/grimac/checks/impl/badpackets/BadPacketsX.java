@@ -30,7 +30,7 @@ public class BadPacketsX extends Check implements PacketCheck {
         if (blockBreak.action != DiggingAction.START_DIGGING && blockBreak.action != DiggingAction.FINISHED_DIGGING)
             return;
 
-        final var block = blockBreak.block.getType();
+        final StateType block = blockBreak.block.getType();
 
         // Fixes false from breaking kelp underwater
         // The client sends two start digging packets to the server both in the same tick. BadPacketsX gets called twice, doesn't false the first time, but falses the second
