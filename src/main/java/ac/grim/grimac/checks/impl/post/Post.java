@@ -24,7 +24,7 @@ import java.util.Locale;
 import static com.github.retrooper.packetevents.protocol.packettype.PacketType.Play.Client.*;
 
 @CheckData(name = "Post")
-public class PostCheck extends Check implements PacketCheck, PostPredictionCheck {
+public class Post extends Check implements PacketCheck, PostPredictionCheck {
     private final ArrayDeque<PacketTypeCommon> post = new ArrayDeque<>();
     // Due to 1.9+ missing the idle packet, we must queue flags
     // 1.8 clients will have the same logic for simplicity, although it's not needed
@@ -32,7 +32,7 @@ public class PostCheck extends Check implements PacketCheck, PostPredictionCheck
     private boolean sentFlying = false;
     private int isExemptFromSwingingCheck = Integer.MIN_VALUE;
 
-    public PostCheck(GrimPlayer playerData) {
+    public Post(GrimPlayer playerData) {
         super(playerData);
     }
 
