@@ -442,7 +442,7 @@ public class MovementCheckRunner extends Check implements PositionCheck {
             wasChecked = true;
 
             player.depthStriderLevel = (float) player.compensatedEntities.getSelf().getAttributeValue(Attributes.WATER_MOVEMENT_EFFICIENCY);
-            player.sneakingSpeedMultiplier = (float) player.compensatedEntities.getSelf().getAttributeValue(Attributes.PLAYER_SNEAKING_SPEED);
+            player.sneakingSpeedMultiplier = (float) player.compensatedEntities.getSelf().getAttributeValue(Attributes.SNEAKING_SPEED);
 
             // This is wrong and the engine was not designed around stuff like this
             player.verticalCollision = false;
