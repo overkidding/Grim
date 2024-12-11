@@ -592,17 +592,14 @@ public class GrimPlayer implements GrimUser {
             return this.isSneaking ? this.possibleEyeHeights[1] : this.possibleEyeHeights[0];
         } else {
             // 1.8 players just have their pose set to standing all the time
-            switch (pose) {
-                case FALL_FLYING: // Elytra gliding
-                case SPIN_ATTACK: // Riptide trident
-                case SWIMMING: // Swimming (includes crawling in 1.14+)
-                    return this.possibleEyeHeights[2]; // [swimming/gliding/riptide height, standing height, sneaking height]
-                case NINE_CROUCHING:
-                case CROUCHING:
-                    return this.possibleEyeHeights[1]; // [sneaking height, standing height, swimming/gliding/riptide height]
-                default:
-                    return this.possibleEyeHeights[0]; // [standing height, sneaking height, swimming/gliding/riptide height]
-            }
+            return switch (pose) {
+                case FALL_FLYING, // Elytra gliding
+                     SPIN_ATTACK, // Riptide trident
+                     SWIMMING -> // Swimming (includes crawling in 1.14+)
+                        this.possibleEyeHeights[2]; // [swimming/gliding/riptide height, standing height, sneaking height]
+                case NINE_CROUCHING, CROUCHING -> this.possibleEyeHeights[1]; // [sneaking height, standing height, swimming/gliding/riptide height]
+                default -> this.possibleEyeHeights[0]; // [standing height, sneaking height, swimming/gliding/riptide height]
+            };
         }
     }
 
