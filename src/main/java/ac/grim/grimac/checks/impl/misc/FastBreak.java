@@ -19,7 +19,7 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPl
 // Based loosely off of Hawk BlockBreakSpeedSurvival
 // Also based loosely off of NoCheatPlus FastBreak
 // Also based off minecraft wiki: https://minecraft.wiki/w/Breaking#Instant_breaking
-@CheckData(name = "FastBreak")
+@CheckData(name = "FastBreak", description = "Breaking blocks too quickly")
 public class FastBreak extends Check implements BlockBreakCheck {
     public FastBreak(GrimPlayer playerData) {
         super(playerData);

@@ -11,7 +11,7 @@ import com.github.retrooper.packetevents.protocol.world.states.type.StateTypes;
 import com.github.retrooper.packetevents.util.Vector3i;
 import org.bukkit.util.Vector;
 
-@CheckData(name = "FarPlace")
+@CheckData(name = "FarPlace", description = "Placing blocks from too far away")
 public class FarPlace extends BlockPlaceCheck {
     public FarPlace(GrimPlayer player) {
         super(player);
