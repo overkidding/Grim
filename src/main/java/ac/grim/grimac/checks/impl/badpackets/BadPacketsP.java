@@ -44,6 +44,7 @@ public class BadPacketsP extends Check implements PacketCheck {
                 case CLONE -> button != 2;
                 case QUICK_CRAFT -> button == 3 || button == 7 || button > 10 || button < 0;
                 case PICKUP_ALL -> button != 0;
+                case UNKNOWN -> false;
             };
 
             // Allowing this to false flag to debug and find issues faster
