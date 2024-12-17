@@ -11,6 +11,8 @@ This project is considered feature complete for the 2.0 (open-source) branch of 
 - *For bleeding edge builds use* [Github artifacts](https://nightly.link/GrimAnticheat/Grim/workflows/gradle-publish/2.0/artifact.zip)
 
 ## Installation notes
+> [!WARNING]
+> Java 17 is now required. More infomation [here](https://github.com/GrimAnticheat/Grim/wiki/Updating-to-Java-17).
 - Paper, Spigot, and Folia are currently supported.
 - If you use Geyser, place Floodgate on the backend server so grim can exempt bedrock players. Grim cannot access the Floodgate API if it is on the proxy.
 - If you use ViaVersion, it should be on the backend server as movement is highly dependent on client version.
