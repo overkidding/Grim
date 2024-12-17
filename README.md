@@ -10,6 +10,11 @@ This project is considered feature complete for the 2.0 (open-source) branch of 
 - [SpigotMC](https://www.spigotmc.org/resources/grim-anticheat.99923/)
 - *For bleeding edge builds use* [Github artifacts](https://nightly.link/GrimAnticheat/Grim/workflows/gradle-publish/2.0/artifact.zip)
 
+## Installation notes
+- Paper, Spigot, and Folia are currently supported.
+- If you use Geyser, place Floodgate on the backend server so grim can exempt bedrock players. Grim cannot access the Floodgate API if it is on the proxy.
+- If you use ViaVersion, it should be on the backend server as movement is highly dependent on client version.
+
 ## Support & wiki information
 - Support & discussion: [Discord](https://discord.com/invite/kqQAhTmkUF)
 - Report issues: [Issues](https://github.com/GrimAnticheat/Grim/issues/new/choose)
