@@ -774,7 +774,7 @@ public class GrimPlayer implements GrimUser {
         cancelDuplicatePacket = config.getBooleanElse("cancel-duplicate-packet", true);
         exemptElytra = config.getBooleanElse("exempt-elytra", false);
         // reload all checks
-        for (AbstractCheck value : checkManager.allChecks.values()) value.reload(config);
+        for (AbstractCheck value : checkManager.allChecks.values()) value.reload();
         // reload punishment manager
         punishmentManager.reload(config);
     }
