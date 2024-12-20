@@ -202,18 +202,18 @@ public class GrimExternalAPI implements GrimAbstractAPI, ConfigReloadObserver, I
     }
 
     private void updateVariables() {
-        variableReplacements.putIfAbsent("%player%", GrimUser::getName);
-        variableReplacements.putIfAbsent("%uuid%", user -> user.getUniqueId().toString());
-        variableReplacements.putIfAbsent("%ping%", user -> user.getTransactionPing() + "");
-        variableReplacements.putIfAbsent("%brand%", GrimUser::getBrand);
-        variableReplacements.putIfAbsent("%h_sensitivity%", user -> ((int) Math.round(user.getHorizontalSensitivity() * 200)) + "");
-        variableReplacements.putIfAbsent("%v_sensitivity%", user -> ((int) Math.round(user.getVerticalSensitivity() * 200)) + "");
-        variableReplacements.putIfAbsent("%fast_math%", user -> !user.isVanillaMath() + "");
-        variableReplacements.putIfAbsent("%tps%", user -> String.format("%.2f", SpigotReflectionUtil.getTPS()));
-        variableReplacements.putIfAbsent("%version%", GrimUser::getVersionName);
+        variableReplacements.put("%player%", GrimUser::getName);
+        variableReplacements.put("%uuid%", user -> user.getUniqueId().toString());
+        variableReplacements.put("%ping%", user -> user.getTransactionPing() + "");
+        variableReplacements.put("%brand%", GrimUser::getBrand);
+        variableReplacements.put("%h_sensitivity%", user -> ((int) Math.round(user.getHorizontalSensitivity() * 200)) + "");
+        variableReplacements.put("%v_sensitivity%", user -> ((int) Math.round(user.getVerticalSensitivity() * 200)) + "");
+        variableReplacements.put("%fast_math%", user -> !user.isVanillaMath() + "");
+        variableReplacements.put("%tps%", user -> String.format("%.2f", SpigotReflectionUtil.getTPS()));
+        variableReplacements.put("%version%", GrimUser::getVersionName);
         // static variables
-        staticReplacements.putIfAbsent("%prefix%", ChatColor.translateAlternateColorCodes('&', GrimAPI.INSTANCE.getConfigManager().getPrefix()));
-        staticReplacements.putIfAbsent("%grim_version%", getGrimVersion());
+        staticReplacements.put("%prefix%", ChatColor.translateAlternateColorCodes('&', GrimAPI.INSTANCE.getConfigManager().getPrefix()));
+        staticReplacements.put("%grim_version%", getGrimVersion());
     }
 
 }
