@@ -18,11 +18,11 @@ import java.util.List;
 // Catches NoFalls for LOOK and GROUND packets
 // This check runs AFTER the predictions
 @CheckData(name = "NoFall", setback = 10)
-public class NoFallA extends Check implements PacketCheck {
+public class NoFall extends Check implements PacketCheck {
 
     public boolean flipPlayerGroundStatus = false;
 
-    public NoFallA(GrimPlayer player) {
+    public NoFall(GrimPlayer player) {
         super(player);
     }
 
