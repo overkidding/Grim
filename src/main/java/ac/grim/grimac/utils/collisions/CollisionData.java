@@ -544,14 +544,12 @@ public enum CollisionData {
 
     SNOW((player, version, data, x, y, z) -> {
         if (data.getLayers() == 1 && version.isNewerThanOrEquals(ClientVersion.V_1_13)) {
-            // Via doesn't touch this
-            if (PacketEvents.getAPI().getServerManager().getVersion().isNewerThanOrEquals(ServerVersion.V_1_13)) {
-                return NoCollisionBox.INSTANCE;
-            }
             // Handle viaversion mapping
-            if (ViaVersionUtil.isAvailable() && Via.getConfig().isSnowCollisionFix()) {
+            if (PacketEvents.getAPI().getServerManager().getVersion().isNewerThanOrEquals(ServerVersion.V_1_13) && ViaVersionUtil.isAvailable() && Via.getConfig().isSnowCollisionFix()) {
                 data = data.clone();
                 data.setLayers(2);
+            } else {
+                return NoCollisionBox.INSTANCE;
             }
         }
 
