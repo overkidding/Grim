@@ -708,7 +708,7 @@ public class GrimPlayer implements GrimUser {
 
     @Contract(pure = true)
     public boolean canSkipTicks() {
-        return getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_9) || !supportsEndTick();
+        return getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_9) && !supportsEndTick();
     }
 
     @Override
