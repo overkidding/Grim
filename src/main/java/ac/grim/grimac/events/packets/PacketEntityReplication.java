@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PacketEntityReplication extends Check implements PacketCheck {
 
-    private final AtomicBoolean hasSentPreWavePacket = new AtomicBoolean(true);;
+    private final AtomicBoolean hasSentPreWavePacket = new AtomicBoolean(true);
 
     // Let's imagine the player is on a boat.
     // The player breaks this boat
