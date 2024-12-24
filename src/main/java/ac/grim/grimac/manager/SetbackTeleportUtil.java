@@ -252,7 +252,7 @@ public class SetbackTeleportUtil extends Check implements PostPredictionCheck {
             // This must be done after setting the sent teleport, otherwise we lose velocity data
             requiredSetBack = data;
             // Send after tracking to fix race condition
-            PacketEvents.getAPI().getProtocolManager().sendPacketSilently(player.user.getChannel(), new WrapperPlayServerPlayerPositionAndLook(position.getX(), position.getY(), position.getZ(), 0, 0, data.getTeleportData().getFlags().getMask(), teleportId, false));
+            PacketEvents.getAPI().getProtocolManager().sendPacketSilently(player.user.getChannel(), new WrapperPlayServerPlayerPositionAndLook(position.getX(), position.getY(), position.getZ(), 0, 0, (byte) 0b11000, teleportId, false));
             player.sendTransaction();
 
             if (data.getVelocity() != null && data.getVelocity().lengthSquared() > 0) {
@@ -410,7 +410,7 @@ public class SetbackTeleportUtil extends Check implements PostPredictionCheck {
             safePosition = safePosition.withZ(safePosition.getZ() + lastKnownGoodPosition.pos.getZ());
         }
 
-        data = new TeleportData(safePosition, flags, transaction, teleportId);
+        data = new TeleportData(safePosition, new RelativeFlag(0b11000), transaction, teleportId);
         requiredSetBack = new SetBackData(data, player.xRot, player.yRot, null, false, plugin);
 
         this.lastKnownGoodPosition = new SetbackPosWithVector(safePosition, new Vector());
