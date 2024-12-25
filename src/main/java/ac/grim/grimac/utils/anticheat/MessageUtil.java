@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 
 @UtilityClass
 public class MessageUtil {
-    private final Pattern HEX_PATTERN = Pattern.compile("[&§]#[A-Fa-f0-9]{6}");
+    private final Pattern HEX_PATTERN = Pattern.compile("([&§]#[A-Fa-f0-9]{6})|([&§]x([&§][A-Fa-f0-9]){6})");
     private final BukkitAudiences adventure = BukkitAudiences.create(GrimAPI.INSTANCE.getPlugin());
     private final boolean hasPlaceholderAPI = Reflection.getClassByNameWithoutException("me.clip.placeholderapi.PlaceholderAPI") != null;
 
@@ -50,7 +50,7 @@ public class MessageUtil {
         StringBuilder sb = new StringBuilder(string.length());
 
         while (matcher.find()) {
-            matcher.appendReplacement(sb, "<" + matcher.group(0).replaceAll("[&§]", "") + ">");
+            matcher.appendReplacement(sb, "<#" + matcher.group(0).replaceAll("[&§#x]", "") + ">");
         }
 
         string = matcher.appendTail(sb).toString();
