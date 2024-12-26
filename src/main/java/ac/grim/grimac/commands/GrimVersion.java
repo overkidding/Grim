@@ -67,7 +67,7 @@ public class GrimVersion extends BaseCommand {
                     .header("Content-Type", "application/json")
                     .timeout(Duration.of(5, ChronoUnit.SECONDS))
                     .build();
-            //
+
             HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() != 200) {
                 Component msg = updateMessage.get();
