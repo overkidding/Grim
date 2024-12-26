@@ -4,6 +4,7 @@ import ac.grim.grimac.GrimAPI;
 import ac.grim.grimac.commands.*;
 import ac.grim.grimac.manager.init.Initable;
 import co.aikar.commands.PaperCommandManager;
+import org.bukkit.Bukkit;
 
 public class CommandRegister implements Initable {
     @Override
@@ -23,7 +24,10 @@ public class CommandRegister implements Initable {
         commandManager.registerCommand(new GrimStopSpectating());
         commandManager.registerCommand(new GrimLog());
         commandManager.registerCommand(new GrimVerbose());
+        commandManager.registerCommand(new GrimVersion());
 
         commandManager.getCommandCompletions().registerCompletion("stopspectating", GrimStopSpectating.completionHandler);
+        //
+        GrimVersion.checkForUpdatesAsync(Bukkit.getConsoleSender());
     }
 }
