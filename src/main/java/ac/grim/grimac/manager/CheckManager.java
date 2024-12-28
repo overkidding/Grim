@@ -108,7 +108,7 @@ public class CheckManager {
                 .put(MultiActionsD.class, new MultiActionsD(player))
                 .put(MultiActionsE.class, new MultiActionsE(player))
                 .put(TransactionOrder.class, new TransactionOrder(player))
-                .put(NoSlowB.class, new NoSlowB(player))
+                .put(SprintA.class, new SprintA(player))
                 .put(SetbackBlocker.class, new SetbackBlocker(player)) // Must be last class otherwise we can't check while blocking packets
                 .build();
         positionCheck = new ImmutableClassToInstanceMap.Builder<PositionCheck>()
@@ -137,10 +137,10 @@ public class CheckManager {
                 .put(SuperDebug.class, new SuperDebug(player))
                 .put(DebugHandler.class, new DebugHandler(player))
                 .put(EntityControl.class, new EntityControl(player))
-                .put(NoSlowA.class, new NoSlowA(player))
-                .put(NoSlowC.class, new NoSlowC(player))
-                .put(NoSlowD.class, new NoSlowD(player))
-                .put(NoSlowE.class, new NoSlowE(player))
+                .put(NoSlow.class, new NoSlow(player))
+                .put(SprintB.class, new SprintB(player))
+                .put(SprintC.class, new SprintC(player))
+                .put(SprintD.class, new SprintD(player))
                 .put(MultiInteractA.class, new MultiInteractA(player))
                 .put(MultiInteractB.class, new MultiInteractB(player))
                 .put(SetbackTeleportUtil.class, new SetbackTeleportUtil(player)) // Avoid teleporting to new position, update safe pos last
@@ -345,8 +345,8 @@ public class CheckManager {
         return getPositionCheck(CompensatedCooldown.class);
     }
 
-    public NoSlowA getNoSlow() {
-        return getPostPredictionCheck(NoSlowA.class);
+    public NoSlow getNoSlow() {
+        return getPostPredictionCheck(NoSlow.class);
     }
 
     public SetbackTeleportUtil getSetbackUtil() {
