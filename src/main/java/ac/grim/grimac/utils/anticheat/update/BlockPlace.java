@@ -190,6 +190,9 @@ public class BlockPlace {
             if (state.getEast() == East.FALSE) return true;
             return state.getWest() == West.FALSE;
         }
+        if (state.getType() == StateTypes.LADDER && player.getClientVersion().isOlderThan(ClientVersion.V_1_13)) {
+            return true;
+        }
 
         return baseReplaceable;
     }
