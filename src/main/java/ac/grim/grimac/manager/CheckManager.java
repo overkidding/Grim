@@ -100,6 +100,7 @@ public class CheckManager {
                 .put(BadPacketsS.class, new BadPacketsS(player))
                 .put(BadPacketsT.class, new BadPacketsT(player))
                 .put(BadPacketsU.class, new BadPacketsU(player))
+                .put(BadPacketsV.class, new BadPacketsV(player))
                 .put(BadPacketsW.class, new BadPacketsW(player))
                 .put(BadPacketsY.class, new BadPacketsY(player))
                 .put(MultiActionsA.class, new MultiActionsA(player))
