@@ -573,9 +573,9 @@ public class GrimPlayer implements GrimUser {
     public boolean isTickingReliablyFor(int ticks) {
         // 1.21.2+: Tick end packet, on servers 1.21.2+
         // 1.8-: Flying packet
-        return !canSkipTicks() || inVehicle()
-                || !uncertaintyHandler.lastPointThree.hasOccurredSince(ticks)
-                && !uncertaintyHandler.lastVehicleSwitch.hasOccurredSince(0);
+        return !canSkipTicks() || (inVehicle()
+                || !uncertaintyHandler.lastPointThree.hasOccurredSince(ticks))
+                && !uncertaintyHandler.lastVehicleSwitch.hasOccurredSince(1);
     }
 
     public boolean inVehicle() {
