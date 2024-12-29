@@ -487,21 +487,30 @@ public class Collisions {
                     if (blockType == StateTypes.BUBBLE_COLUMN && player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_13)) {
                         WrappedBlockState blockAbove = player.compensatedWorld.getWrappedBlockStateAt(blockX, blockY + 1, blockZ);
 
-                        final boolean isBoat = player.compensatedEntities.getSelf().getRiding() != null && player.compensatedEntities.getSelf().getRiding().isBoat();
-                        if (blockAbove.getType().isAir() && !isBoat) {
-                            for (VectorData vector : player.getPossibleVelocitiesMinusKnockback()) {
+                        if (player.compensatedEntities.getSelf().getRiding() != null && player.compensatedEntities.getSelf().getRiding().isBoat()) {
+                            if (!blockAbove.getType().isAir()) {
                                 if (block.isDrag()) {
-                                    vector.vector.setY(Math.max(-0.9D, vector.vector.getY() - 0.03D));
+                                    player.clientVelocity.setY(Math.max(-0.3D, player.clientVelocity.getY() - 0.03D));
                                 } else {
-                                    vector.vector.setY(Math.min(1.8D, vector.vector.getY() + 0.1D));
+                                    player.clientVelocity.setY(Math.min(0.7D, player.clientVelocity.getY() + 0.06D));
                                 }
                             }
-                        } else if (!isBoat || !blockAbove.getType().isAir()) {
-                            for (VectorData vector : player.getPossibleVelocitiesMinusKnockback()) {
-                                if (block.isDrag()) {
-                                    vector.vector.setY(Math.max(-0.3D, vector.vector.getY() - 0.03D));
-                                } else {
-                                    vector.vector.setY(Math.min(0.7D, vector.vector.getY() + 0.06D));
+                        } else {
+                            if (blockAbove.getType().isAir()) {
+                                for (VectorData vector : player.getPossibleVelocitiesMinusKnockback()) {
+                                    if (block.isDrag()) {
+                                        vector.vector.setY(Math.max(-0.9D, vector.vector.getY() - 0.03D));
+                                    } else {
+                                        vector.vector.setY(Math.min(1.8D, vector.vector.getY() + 0.1D));
+                                    }
+                                }
+                            } else {
+                                for (VectorData vector : player.getPossibleVelocitiesMinusKnockback()) {
+                                    if (block.isDrag()) {
+                                        vector.vector.setY(Math.max(-0.3D, vector.vector.getY() - 0.03D));
+                                    } else {
+                                        vector.vector.setY(Math.min(0.7D, vector.vector.getY() + 0.06D));
+                                    }
                                 }
                             }
                         }
