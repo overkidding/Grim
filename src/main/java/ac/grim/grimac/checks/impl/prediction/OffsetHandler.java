@@ -67,7 +67,7 @@ public class OffsetHandler extends Check implements PostPredictionCheck {
                     humanFormattedOffset = humanFormattedOffset.replace("0.", ".");
                 }
 
-                if(alert(humanFormattedOffset + " /gl " + flagId)) {
+                if (alert(humanFormattedOffset + " /gl " + flagId)) {
                     flags.incrementAndGet(); // This debug was sent somewhere
                     predictionComplete.setIdentifier(flagId);
                 }
