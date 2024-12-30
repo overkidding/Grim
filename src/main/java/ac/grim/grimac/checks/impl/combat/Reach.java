@@ -184,7 +184,9 @@ public class Reach extends Check implements PacketCheck {
         // Adds some more than 0.03 uncertainty in some cases, but a good trade off for simplicity
         //
         // Just give the uncertainty on 1.9+ clients as we have no way of knowing whether they had 0.03 movement
-        if (!player.packetStateData.didLastLastMovementIncludePosition || player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_9))
+        // However, on 1.21.2+ we do know if they had 0.03 movement
+        if (!player.packetStateData.didLastLastMovementIncludePosition
+                || (!player.supportsEndTick() && player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_9)))
             targetBox.expand(player.getMovementThreshold());
 
         double minDistance = Double.MAX_VALUE;
