@@ -26,6 +26,10 @@ import ac.grim.grimac.checks.impl.prediction.GroundSpoof;
 import ac.grim.grimac.checks.impl.prediction.OffsetHandler;
 import ac.grim.grimac.checks.impl.prediction.Phase;
 import ac.grim.grimac.checks.impl.scaffolding.*;
+import ac.grim.grimac.checks.impl.timer.NegativeTimer;
+import ac.grim.grimac.checks.impl.timer.TickTimer;
+import ac.grim.grimac.checks.impl.timer.Timer;
+import ac.grim.grimac.checks.impl.timer.VehicleTimer;
 import ac.grim.grimac.checks.impl.velocity.ExplosionHandler;
 import ac.grim.grimac.checks.impl.velocity.KnockbackHandler;
 import ac.grim.grimac.checks.type.*;
@@ -129,7 +133,7 @@ public class CheckManager {
                 .build();
 
         postPredictionCheck = new ImmutableClassToInstanceMap.Builder<PostPredictionCheck>()
-                .put(NegativeTimerCheck.class, new NegativeTimerCheck(player))
+                .put(NegativeTimer.class, new NegativeTimer(player))
                 .put(ExplosionHandler.class, new ExplosionHandler(player))
                 .put(KnockbackHandler.class, new KnockbackHandler(player))
                 .put(GhostBlockDetector.class, new GhostBlockDetector(player))
@@ -168,7 +172,7 @@ public class CheckManager {
                 .build();
 
         prePredictionChecks = new ImmutableClassToInstanceMap.Builder<PacketCheck>()
-                .put(TimerCheck.class, new TimerCheck(player))
+                .put(Timer.class, new Timer(player))
                 .put(TickTimer.class, new TickTimer(player))
                 .put(CrashA.class, new CrashA(player))
                 .put(CrashB.class, new CrashB(player))
