@@ -211,9 +211,10 @@ public class Reach extends Check implements PacketCheck {
         // +3 would be 3 + 3 = 6, which is the pre-1.20.5 behaviour, preventing "Missed Hitbox"
         final double distance = maxReach + 3;
         final double[] possibleEyeHeights = player.getPossibleEyeHeights();
+        final Vector eyePos = new Vector(from.getX(), 0, from.getZ());
         for (Vector lookVec : possibleLookDirs) {
             for (double eye : possibleEyeHeights) {
-                Vector eyePos = new Vector(from.getX(), from.getY() + eye, from.getZ());
+                eyePos.setY(from.getY() + eye);
                 Vector endReachPos = eyePos.clone().add(new Vector(lookVec.getX() * distance, lookVec.getY() * distance, lookVec.getZ() * distance));
 
                 Vector intercept = ReachUtils.calculateIntercept(targetBox, eyePos, endReachPos).first();
