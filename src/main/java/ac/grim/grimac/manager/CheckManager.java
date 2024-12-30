@@ -5,10 +5,7 @@ import ac.grim.grimac.checks.impl.aim.AimDuplicateLook;
 import ac.grim.grimac.checks.impl.aim.AimModulo360;
 import ac.grim.grimac.checks.impl.aim.processor.AimProcessor;
 import ac.grim.grimac.checks.impl.badpackets.*;
-import ac.grim.grimac.checks.impl.breaking.AirLiquidBreak;
-import ac.grim.grimac.checks.impl.breaking.FastBreak;
-import ac.grim.grimac.checks.impl.breaking.MultiBreak;
-import ac.grim.grimac.checks.impl.breaking.WrongBreak;
+import ac.grim.grimac.checks.impl.breaking.*;
 import ac.grim.grimac.checks.impl.combat.Hitboxes;
 import ac.grim.grimac.checks.impl.combat.MultiInteractA;
 import ac.grim.grimac.checks.impl.combat.MultiInteractB;
@@ -198,6 +195,7 @@ public class CheckManager {
                 .put(WrongBreak.class, new WrongBreak(player))
                 .put(FastBreak.class, new FastBreak(player))
                 .put(MultiBreak.class, new MultiBreak(player))
+                .put(NoSwingBreak.class, new NoSwingBreak(player))
                 .build();
 
         allChecks = new ImmutableClassToInstanceMap.Builder<AbstractCheck>()
