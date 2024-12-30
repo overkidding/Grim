@@ -552,11 +552,8 @@ public class GrimPlayer implements GrimUser {
 
     public ClientVersion getClientVersion() {
         ClientVersion ver = user.getClientVersion();
-        if (ver == null) {
-            // If temporarily null, assume server version...
-            return ClientVersion.getById(PacketEvents.getAPI().getServerManager().getVersion().getProtocolVersion());
-        }
-        return ver;
+        // If temporarily null, assume server version...
+        return Objects.requireNonNullElseGet(ver, () -> ClientVersion.getById(PacketEvents.getAPI().getServerManager().getVersion().getProtocolVersion()));
     }
 
     // Alright, someone at mojang decided to not send a flying packet every tick with 1.9
@@ -663,9 +660,7 @@ public class GrimPlayer implements GrimUser {
         // Help prevent transaction split
         sendTransaction();
 
-        latencyUtils.addRealTimeTask(lastTransactionSent.get(), () -> {
-            this.vehicleData.wasVehicleSwitch = true;
-        });
+        latencyUtils.addRealTimeTask(lastTransactionSent.get(), () -> this.vehicleData.wasVehicleSwitch = true);
     }
 
     public int getRidingVehicleId() {
