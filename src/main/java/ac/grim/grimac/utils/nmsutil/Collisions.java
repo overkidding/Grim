@@ -440,7 +440,7 @@ public class Collisions {
 
 
         // Use the bounding box for after the player's movement is applied
-        double expandAmount = player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_19_4) ? 1e-7 : 0.001;
+        double expandAmount = player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_19_4) ? 1e-5 : 0.001;
         SimpleCollisionBox aABB = player.compensatedEntities.getSelf().inVehicle()
                 ? GetBoundingBox.getCollisionBoxForPlayer(player, player.x, player.y, player.z).expand(-expandAmount)
                 : player.boundingBox.copy().expand(-expandAmount);
