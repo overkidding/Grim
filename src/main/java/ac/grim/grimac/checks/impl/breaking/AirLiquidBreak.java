@@ -13,7 +13,7 @@ import com.github.retrooper.packetevents.protocol.world.states.type.StateType;
 import com.github.retrooper.packetevents.protocol.world.states.type.StateTypes;
 import com.github.retrooper.packetevents.util.Vector3i;
 
-@CheckData(name = "AirLiquidBreak")
+@CheckData(name = "AirLiquidBreak", description = "Breaking a block that cannot be broken")
 public class AirLiquidBreak extends Check implements BlockBreakCheck {
     public AirLiquidBreak(GrimPlayer player) {
         super(player);
