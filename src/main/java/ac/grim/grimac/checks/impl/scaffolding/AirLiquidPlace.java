@@ -38,7 +38,7 @@ public class AirLiquidPlace extends BlockPlaceCheck {
      * And in even more rare cases:
      *     Async world updated: air -> air at X: -51, Y: 71, Z: -179, tick 0, cause: handleNettySyncTransaction(LatencyUtils.java:56) source: PacketType.Play.Client.PONG
      *     AirLiquidPlace Check: Block state at X: -49, Y: 70, Z: -180 is short_grass (valid=true), tick 0
-     *     Async world updated: short_grass -> air at X: -49, Y: 70, Z: -180, tick 1, cause/source: DiggingAction.START_DIGGING <--- double dig here (see my BadPacketsX patch) this is legit behaviour. Can only be up to 2 in 1 tick though.
+     *     Async world updated: short_grass -> air at X: -49, Y: 70, Z: -180, tick 1, cause/source: DiggingAction.START_DIGGING <--- double dig here (see my AirLiquidBreak patch) this is legit behaviour. Can only be up to 2 in 1 tick though.
      *     Async world updated: air -> short_grass at X: -49, Y: 70, Z: -180, tick 1, cause/source: DiggingAction.START_DIGGING
      *     Async world updated: short_grass -> air at X: -51, Y: 70, Z: -179, tick 1, cause: realtime task in applyBlockChanges(List<Vector3i> toApplyBlocks) source: PacketType.Play.Client.PONG
      *     AirLiquidPlace Check: Block state at X: -49, Y: 70, Z: -179 is air (valid=false), tick 2 <--- falses here due to double dig if we only check the latest changed blockstate. We have to check all changes at the location in same tick.

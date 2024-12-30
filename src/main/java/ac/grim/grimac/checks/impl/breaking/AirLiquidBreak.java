@@ -1,4 +1,4 @@
-package ac.grim.grimac.checks.impl.badpackets;
+package ac.grim.grimac.checks.impl.breaking;
 
 import ac.grim.grimac.GrimAPI;
 import ac.grim.grimac.checks.Check;
@@ -13,9 +13,9 @@ import com.github.retrooper.packetevents.protocol.world.states.type.StateType;
 import com.github.retrooper.packetevents.protocol.world.states.type.StateTypes;
 import com.github.retrooper.packetevents.util.Vector3i;
 
-@CheckData(name = "BadPacketsX")
-public class BadPacketsX extends Check implements BlockBreakCheck {
-    public BadPacketsX(GrimPlayer player) {
+@CheckData(name = "AirLiquidBreak")
+public class AirLiquidBreak extends Check implements BlockBreakCheck {
+    public AirLiquidBreak(GrimPlayer player) {
         super(player);
     }
 
@@ -34,7 +34,7 @@ public class BadPacketsX extends Check implements BlockBreakCheck {
         final StateType block = blockBreak.block.getType();
 
         // Fixes false from breaking kelp underwater
-        // The client sends two start digging packets to the server both in the same tick. BadPacketsX gets called twice, doesn't false the first time, but falses the second
+        // The client sends two start digging packets to the server both in the same tick. AirLiquidBreak gets called twice, doesn't false the first time, but falses the second
         // One ends up breaking the kelp, the other ends up doing nothing besides falsing this check because we think they're trying to mine water
         // I am explicitly making this patch as narrow and specific as possible to potentially discover other blocks that exhibit similar behaviour
         int newTick = GrimAPI.INSTANCE.getTickManager().currentTick;
