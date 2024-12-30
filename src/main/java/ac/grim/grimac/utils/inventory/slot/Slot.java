@@ -83,10 +83,8 @@ public class Slot {
                 itemstack.grow(i);
                 this.set(itemstack);
             }
-            return stack;
-        } else {
-            return stack;
         }
+        return stack;
     }
 
     public ItemStack remove(int p_40227_) {

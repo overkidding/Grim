@@ -62,10 +62,10 @@ public class Collisions {
         player.boundingBox = GetBoundingBox.getBoundingBoxFromPosAndSize(player, x, y, z, 0.6f, 0.06f);
 
         double movementThreshold = player.getMovementThreshold();
-        double posXZ = Collisions.collide(player, movementThreshold, -movementThreshold, movementThreshold).getY();
-        double negXNegZ = Collisions.collide(player, -movementThreshold, -movementThreshold, -movementThreshold).getY();
-        double posXNegZ = Collisions.collide(player, movementThreshold, -movementThreshold, -movementThreshold).getY();
-        double posZNegX = Collisions.collide(player, -movementThreshold, -movementThreshold, movementThreshold).getY();
+        double posXZ = collide(player, movementThreshold, -movementThreshold, movementThreshold).getY();
+        double negXNegZ = collide(player, -movementThreshold, -movementThreshold, -movementThreshold).getY();
+        double posXNegZ = collide(player, movementThreshold, -movementThreshold, -movementThreshold).getY();
+        double posZNegX = collide(player, -movementThreshold, -movementThreshold, movementThreshold).getY();
 
         player.boundingBox = oldBB;
         return negXNegZ != -movementThreshold || posXNegZ != -movementThreshold || posXZ != -movementThreshold || posZNegX != -movementThreshold;
@@ -304,7 +304,7 @@ public class Collisions {
                     if (section == null || (IS_FOURTEEN && section.isEmpty())) { // Check for empty on 1.13+ servers
                         // empty
                         // skip to next section
-                        y = (y & ~(15)) + 15; // increment by 15: iterator loop increments by the extra one
+                        y = (y & ~15) + 15; // increment by 15: iterator loop increments by the extra one
                         continue;
                     }
 
