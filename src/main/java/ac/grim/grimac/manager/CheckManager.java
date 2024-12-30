@@ -5,6 +5,8 @@ import ac.grim.grimac.checks.impl.aim.AimDuplicateLook;
 import ac.grim.grimac.checks.impl.aim.AimModulo360;
 import ac.grim.grimac.checks.impl.aim.processor.AimProcessor;
 import ac.grim.grimac.checks.impl.badpackets.*;
+import ac.grim.grimac.checks.impl.breaking.FastBreak;
+import ac.grim.grimac.checks.impl.breaking.WrongBreak;
 import ac.grim.grimac.checks.impl.combat.Hitboxes;
 import ac.grim.grimac.checks.impl.combat.MultiInteractA;
 import ac.grim.grimac.checks.impl.combat.MultiInteractB;
@@ -15,7 +17,6 @@ import ac.grim.grimac.checks.impl.exploit.ExploitB;
 import ac.grim.grimac.checks.impl.exploit.ExploitC;
 import ac.grim.grimac.checks.impl.groundspoof.NoFall;
 import ac.grim.grimac.checks.impl.misc.ClientBrand;
-import ac.grim.grimac.checks.impl.breaking.FastBreak;
 import ac.grim.grimac.checks.impl.misc.GhostBlockMitigation;
 import ac.grim.grimac.checks.impl.misc.TransactionOrder;
 import ac.grim.grimac.checks.impl.movement.*;
@@ -191,7 +192,7 @@ public class CheckManager {
 
         blockBreakChecks = new ImmutableClassToInstanceMap.Builder<BlockBreakCheck>()
                 .put(BadPacketsX.class, new BadPacketsX(player))
-                .put(BadPacketsZ.class, new BadPacketsZ(player))
+                .put(WrongBreak.class, new WrongBreak(player))
                 .put(FastBreak.class, new FastBreak(player))
                 .build();
 
