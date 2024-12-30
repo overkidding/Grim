@@ -36,12 +36,14 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientIn
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 // You may not copy the check unless you are licensed under GPL
 @CheckData(name = "Reach", setback = 10)
 public class Reach extends Check implements PacketCheck {
+
     // Only one flag per reach attack, per entity, per tick.
     // We store position because lastX isn't reliable on teleports.
     private final Int2ObjectMap<Vector3d> playerAttackQueue = new Int2ObjectOpenHashMap<>();
@@ -130,7 +132,8 @@ public class Reach extends Check implements PacketCheck {
 
         // Filter out what we assume to be cheats
         if (cancelBuffer != 0) {
-            return checkReach(reachEntity, new Vector3d(player.x, player.y, player.z), true) != null; // If they flagged
+            CheckResult result = checkReach(reachEntity, new Vector3d(player.x, player.y, player.z), true);
+            return result.isFlag(); // If they flagged
         } else {
             SimpleCollisionBox targetBox = reachEntity.getPossibleCollisionBoxes();
             if (reachEntity.getType() == EntityTypes.END_CRYSTAL) {
@@ -143,21 +146,26 @@ public class Reach extends Check implements PacketCheck {
     private void tickBetterReachCheckWithAngle() {
         for (Int2ObjectMap.Entry<Vector3d> attack : playerAttackQueue.int2ObjectEntrySet()) {
             PacketEntity reachEntity = player.compensatedEntities.entityMap.get(attack.getIntKey());
-            if (reachEntity != null) {
-                String result = checkReach(reachEntity, attack.getValue(), false);
-                if (result != null) {
-                    if (reachEntity.getType() == EntityTypes.PLAYER) {
-                        flagAndAlert(result);
-                    } else {
-                        flagAndAlert(result + " type=" + reachEntity.getType().getName().getKey());
-                    }
+            if (reachEntity == null) continue;
+
+            CheckResult result = checkReach(reachEntity, attack.getValue(), false);
+            switch (result.type()) {
+                case REACH -> {
+                    String added = reachEntity.getType() == EntityTypes.PLAYER ? "" : ", type=" + reachEntity.getType().getName().getKey();
+                    flagAndAlert(added);
+                }
+                case HITBOX -> {
+                    String added = reachEntity.getType() == EntityTypes.PLAYER ? "" : "type=" + reachEntity.getType().getName().getKey();
+                    player.checkManager.getPacketCheck(Hitboxes.class).flagAndAlert(added);
                 }
             }
         }
+
         playerAttackQueue.clear();
     }
 
-    private String checkReach(PacketEntity reachEntity, Vector3d from, boolean isPrediction) {
+    @NotNull
+    private CheckResult checkReach(PacketEntity reachEntity, Vector3d from, boolean isPrediction) {
         SimpleCollisionBox targetBox = reachEntity.getPossibleCollisionBoxes();
 
         if (reachEntity.getType() == EntityTypes.END_CRYSTAL) { // Hardcode end crystal box
@@ -199,8 +207,9 @@ public class Reach extends Check implements PacketCheck {
             }
         }
 
+        final double maxReach = player.compensatedEntities.getSelf().getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE);
         // +3 would be 3 + 3 = 6, which is the pre-1.20.5 behaviour, preventing "Missed Hitbox"
-        final double distance = player.compensatedEntities.getSelf().getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE) + 3;
+        final double distance = maxReach + 3;
         final double[] possibleEyeHeights = player.getPossibleEyeHeights();
         for (Vector lookVec : possibleLookDirs) {
             for (double eye : possibleEyeHeights) {
@@ -224,16 +233,28 @@ public class Reach extends Check implements PacketCheck {
         if ((!blacklisted.contains(reachEntity.getType()) && reachEntity.isLivingEntity()) || reachEntity.getType() == EntityTypes.END_CRYSTAL) {
             if (minDistance == Double.MAX_VALUE) {
                 cancelBuffer = 1;
-                return "Missed hitbox";
-            } else if (minDistance > player.compensatedEntities.getSelf().getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE)) {
+                return new CheckResult(ResultType.HITBOX, "");
+            } else if (minDistance > maxReach) {
                 cancelBuffer = 1;
-                return String.format("%.5f", minDistance) + " blocks";
+                return new CheckResult(ResultType.REACH, String.format("%.5f", minDistance) + " blocks");
             } else {
                 cancelBuffer = Math.max(0, cancelBuffer - 0.25);
             }
         }
 
-        return null;
+        return NONE;
+    }
+
+    private static final CheckResult NONE = new CheckResult(ResultType.NONE, "");
+
+    private record CheckResult(ResultType type, String verbose) {
+        public boolean isFlag() {
+            return type != ResultType.NONE;
+        }
+    }
+
+    private enum ResultType {
+        REACH, HITBOX, NONE
     }
 
     @Override
