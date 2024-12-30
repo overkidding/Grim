@@ -26,6 +26,7 @@ import ac.grim.grimac.checks.impl.prediction.GroundSpoof;
 import ac.grim.grimac.checks.impl.prediction.OffsetHandler;
 import ac.grim.grimac.checks.impl.prediction.Phase;
 import ac.grim.grimac.checks.impl.scaffolding.*;
+import ac.grim.grimac.checks.impl.sprint.*;
 import ac.grim.grimac.checks.impl.timer.NegativeTimer;
 import ac.grim.grimac.checks.impl.timer.TickTimer;
 import ac.grim.grimac.checks.impl.timer.Timer;
