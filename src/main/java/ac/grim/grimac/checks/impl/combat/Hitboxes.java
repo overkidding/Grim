@@ -7,7 +7,6 @@ import ac.grim.grimac.player.GrimPlayer;
 
 @CheckData(name = "Hitboxes", setback = 10)
 public class Hitboxes extends Check implements PacketCheck {
-
     public Hitboxes(GrimPlayer player) {
         super(player);
     }

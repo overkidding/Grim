@@ -32,7 +32,7 @@ public class FarBreak extends Check implements BlockBreakCheck {
         // getPickRange() determines this?
         // With 1.20.5+ the new attribute determines creative mode reach using a modifier
         double maxReach = player.compensatedEntities.getSelf().getAttributeValue(Attributes.BLOCK_INTERACTION_RANGE);
-        if (player.packetStateData.didLastLastMovementIncludePosition || player.canSkipTicks()) {
+        if (player.packetStateData.didLastMovementIncludePosition || player.canSkipTicks()) {
             double threshold = player.getMovementThreshold();
             maxReach += Math.hypot(threshold, threshold);
         }

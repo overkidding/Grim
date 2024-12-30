@@ -160,7 +160,7 @@ public class ReachUtils {
     }
 
     public static double getMinReachToBox(GrimPlayer player, SimpleCollisionBox targetBox) {
-        boolean giveMovementThresholdLenience = !player.packetStateData.didLastMovementIncludePosition || player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_9);
+        boolean giveMovementThresholdLenience = !player.packetStateData.didLastMovementIncludePosition || player.canSkipTicks();
         if (player.getClientVersion().isOlderThanOrEquals(ClientVersion.V_1_8)) targetBox.expand(0.1);
 
         double lowest = Double.MAX_VALUE;
