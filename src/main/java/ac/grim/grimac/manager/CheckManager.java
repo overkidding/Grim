@@ -196,6 +196,7 @@ public class CheckManager {
                 .put(NoSwingBreak.class, new NoSwingBreak(player))
                 .put(FarBreak.class, new FarBreak(player))
                 .put(InvalidBreak.class, new InvalidBreak(player))
+                .put(PositionBreak.class, new PositionBreak(player))
                 .build();
 
         allChecks = new ImmutableClassToInstanceMap.Builder<AbstractCheck>()
