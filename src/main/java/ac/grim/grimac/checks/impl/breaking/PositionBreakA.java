@@ -7,9 +7,9 @@ import ac.grim.grimac.player.GrimPlayer;
 import ac.grim.grimac.utils.anticheat.update.BlockBreak;
 import ac.grim.grimac.utils.collisions.datatypes.SimpleCollisionBox;
 
-@CheckData(name = "PositionBreak")
-public class PositionBreak extends Check implements BlockBreakCheck {
-    public PositionBreak(GrimPlayer player) {
+@CheckData(name = "PositionBreakA")
+public class PositionBreakA extends Check implements BlockBreakCheck {
+    public PositionBreakA(GrimPlayer player) {
         super(player);
     }
 
