@@ -6,6 +6,7 @@ import ac.grim.grimac.checks.type.BlockBreakCheck;
 import ac.grim.grimac.player.GrimPlayer;
 import ac.grim.grimac.utils.anticheat.update.BlockBreak;
 import ac.grim.grimac.utils.collisions.datatypes.SimpleCollisionBox;
+import com.github.retrooper.packetevents.protocol.player.DiggingAction;
 
 @CheckData(name = "PositionBreakA")
 public class PositionBreakA extends Check implements BlockBreakCheck {
