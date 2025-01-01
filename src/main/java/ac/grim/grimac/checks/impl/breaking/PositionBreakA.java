@@ -15,6 +15,8 @@ public class PositionBreakA extends Check implements BlockBreakCheck {
 
     @Override
     public void onBlockBreak(BlockBreak blockBreak) {
+        if (player.compensatedEntities.getSelf().inVehicle() || blockBreak.action == DiggingAction.CANCELLED_DIGGING) return;
+
         SimpleCollisionBox combined = blockBreak.getCombinedBox();
 
         final double[] possibleEyeHeights = player.getPossibleEyeHeights();
