@@ -130,6 +130,11 @@ bukkit {
             default = Permission.Default.OP
         }
 
+        register("grim.brand.enable-on-join") {
+            description = "Enable showing client brands on join"
+            default = Permission.Default.OP
+        }
+
         register("grim.brand.exempt") {
             description = "Do not show this player's client brand"
             default = Permission.Default.OP

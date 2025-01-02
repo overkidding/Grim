@@ -36,9 +36,12 @@ public class PacketPlayerJoinQuit extends PacketListenerAbstract {
         }
         if (player.hasPermission("grim.alerts") && player.hasPermission("grim.alerts.enable-on-join")) {
             GrimAPI.INSTANCE.getAlertManager().toggleAlerts(player);
-            if (player.hasPermission("grim.verbose") && player.hasPermission("grim.verbose.enable-on-join")) {
-                GrimAPI.INSTANCE.getAlertManager().toggleVerbose(player);
-            }
+        }
+        if (player.hasPermission("grim.verbose") && player.hasPermission("grim.verbose.enable-on-join")) {
+            GrimAPI.INSTANCE.getAlertManager().toggleVerbose(player);
+        }
+        if (player.hasPermission("grim.brand") && player.hasPermission("grim.brand.enable-on-join")) {
+            GrimAPI.INSTANCE.getAlertManager().toggleBrands(player);
         }
         if (player.hasPermission("grim.spectate") && GrimAPI.INSTANCE.getConfigManager().getConfig().getBooleanElse("spectators.hide-regardless", false)) {
             GrimAPI.INSTANCE.getSpectateManager().onLogin(player);

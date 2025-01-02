@@ -48,9 +48,8 @@ public class ClientBrand extends Check implements PacketCheck {
 
                     Component component = MessageUtil.miniMessage(message);
 
-                    // sendMessage is async safe while broadcast isn't due to adventure
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        if (player.hasPermission("grim.brand")) {
+                        if (GrimAPI.INSTANCE.getAlertManager().hasBrandsEnabled(player)) {
                             MessageUtil.sendMessage(player, component);
                         }
                     }
