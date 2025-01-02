@@ -5,6 +5,7 @@ import ac.grim.grimac.checks.CheckData;
 import ac.grim.grimac.checks.type.BlockBreakCheck;
 import ac.grim.grimac.player.GrimPlayer;
 import ac.grim.grimac.utils.anticheat.update.BlockBreak;
+import com.github.retrooper.packetevents.protocol.player.ClientVersion;
 
 @CheckData(name = "InvalidBreak", description = "Sent impossible block face id")
 public class InvalidBreak extends Check implements BlockBreakCheck {
@@ -14,6 +15,10 @@ public class InvalidBreak extends Check implements BlockBreakCheck {
 
     @Override
     public void onBlockBreak(BlockBreak blockBreak) {
+        if (blockBreak.faceId == 255 && player.getClientVersion().isOlderThanOrEquals(ClientVersion.V_1_7_10)) {
+            return;
+        }
+
         if (blockBreak.faceId < 0 || blockBreak.faceId > 5) {
             // ban
             if (flagAndAlert("face=" + blockBreak.faceId) && shouldModifyPackets()) {
