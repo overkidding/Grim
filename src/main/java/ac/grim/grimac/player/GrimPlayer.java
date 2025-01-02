@@ -804,11 +804,6 @@ public class GrimPlayer implements GrimUser {
         Consumer<Player> resetActiveBukkitItem0 = null;
 
         try {
-            try { // paper 1.16+
-                LivingEntity.class.getMethod("clearActiveItem");
-                resetActiveBukkitItem0 = LivingEntity::clearActiveItem;
-            } catch (NoSuchMethodException ignored) {}
-
             if (version == ServerVersion.V_1_8_8) {
                 Class<?> EntityHuman = Class.forName("net.minecraft.server.v1_8_R3.EntityHuman");
                 Method getHandle = Class.forName("org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer").getMethod("getHandle");
@@ -878,6 +873,10 @@ public class GrimPlayer implements GrimUser {
                 };
             } else if (version.isNewerThanOrEquals(ServerVersion.V_1_17_1)) {
                 isUsingBukkitItem0 = player -> player.getItemInUse() != null;
+                try { // paper only
+                    LivingEntity.class.getMethod("clearActiveItem");
+                    resetActiveBukkitItem0 = LivingEntity::clearActiveItem;
+                } catch (NoSuchMethodException ignored) {}
             }
         } catch (ClassNotFoundException | NoSuchMethodException e) {
             throw new RuntimeException(e);
