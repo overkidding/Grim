@@ -2,6 +2,8 @@ prefix: "&bGrim &8\u00BB"
 
 alerts-enabled: "%prefix% &fBenachrichtigungen aktiviert"
 alerts-disabled: "%prefix% &fBenachrichtigungen deaktiviert"
+verbose-enabled: "%prefix% &fVerbose enabled"
+verbose-disabled: "%prefix% &fVerbose disabled"
 client-brand-format: "%prefix% &f%player% hat sich mit %brand% verbunden"
 console-specify-target: "%prefix% &cDu musst ein Ziel angeben, da du die Konsole benutzt!"
 reloading: "%prefix% &7Konfiguration wird neu geladen..."

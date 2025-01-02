@@ -3,6 +3,8 @@ prefix: "&bGrim &8\u00BB"
 
 alerts-enabled: "%prefix% &fAlerts abilitati"
 alerts-disabled: "%prefix% &fAlerts disabilitati"
+verbose-enabled: "%prefix% &fVerbose enabled"
+verbose-disabled: "%prefix% &fVerbose disabled"
 client-brand-format: "%prefix% &f%player% si è connesso usando %brand%"
 console-specify-target: "%prefix% &cDevi specificare un destinatario come console!"
 reloading: "%prefix% &7Reloading config..."

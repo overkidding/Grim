@@ -3,6 +3,8 @@ prefix: "&bGrim &8\u00BB"
 
 alerts-enabled: "%prefix% &f警报已开启"
 alerts-disabled: "%prefix% &f警报已禁用"
+verbose-enabled: "%prefix% &fVerbose enabled"
+verbose-disabled: "%prefix% &fVerbose disabled"
 client-brand-format: "%prefix% &f%player% 用 %brand% 加入了游戏"
 console-specify-target: "%prefix% &c您必须指定一个目标作为控制台!"
 reloading: "%prefix% &7Reloading config..."
