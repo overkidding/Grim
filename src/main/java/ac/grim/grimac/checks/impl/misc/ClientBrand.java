@@ -42,7 +42,7 @@ public class ClientBrand extends Check implements PacketCheck {
 
                 brand = new String(minusLength).replace(" (Velocity)", ""); //removes velocity's brand suffix
                 brand = ChatColor.stripColor(brand); //strip color codes from client brand
-                if (!GrimAPI.INSTANCE.getConfigManager().isIgnoredClient(brand) && !player.bukkitPlayer.hasPermission("grim.brand.exempt")) {
+                if (!GrimAPI.INSTANCE.getConfigManager().isIgnoredClient(brand)) {
                     String message = GrimAPI.INSTANCE.getConfigManager().getConfig().getStringElse("client-brand-format", "%prefix% &f%player% joined using %brand%");
                     message = MessageUtil.replacePlaceholders(player, message);
 
