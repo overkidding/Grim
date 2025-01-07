@@ -930,6 +930,11 @@ public class GrimPlayer implements GrimUser {
         return featureManager;
     }
 
+    @Override
+    public void sendMessage(String message) {
+        if (bukkitPlayer != null) bukkitPlayer.sendMessage(message);
+    }
+
     private ResyncHandler resyncHandler = new BukkitResyncHandler(this);
 
     @Override
