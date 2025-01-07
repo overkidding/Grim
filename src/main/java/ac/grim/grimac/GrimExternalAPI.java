@@ -50,11 +50,6 @@ public class GrimExternalAPI implements GrimAbstractAPI, ConfigReloadObserver, I
         return getGrimUser(player);
     }
 
-    @Override
-    public void setServerName(String name) {
-        variableReplacements.put("%server%", user -> name);
-    }
-
     @Getter
     private final Map<String, Function<GrimUser, String>> variableReplacements = new ConcurrentHashMap<>();
 

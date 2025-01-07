@@ -4,12 +4,16 @@ import ac.grim.grimac.GrimAPI;
 import ac.grim.grimac.api.AbstractCheck;
 import ac.grim.grimac.api.GrimUser;
 import ac.grim.grimac.api.config.ConfigManager;
+import ac.grim.grimac.api.feature.FeatureManager;
+import ac.grim.grimac.api.handler.ResyncHandler;
 import ac.grim.grimac.checks.Check;
 import ac.grim.grimac.checks.impl.aim.processor.AimProcessor;
 import ac.grim.grimac.checks.impl.misc.ClientBrand;
 import ac.grim.grimac.checks.impl.misc.TransactionOrder;
 import ac.grim.grimac.events.packets.CheckManagerListener;
 import ac.grim.grimac.manager.*;
+import ac.grim.grimac.manager.player.features.FeatureManagerImpl;
+import ac.grim.grimac.manager.player.handlers.BukkitResyncHandler;
 import ac.grim.grimac.predictionengine.MovementCheckRunner;
 import ac.grim.grimac.predictionengine.PointThreeEstimator;
 import ac.grim.grimac.predictionengine.UncertaintyHandler;
@@ -50,6 +54,7 @@ import io.github.retrooper.packetevents.util.folia.FoliaScheduler;
 import io.github.retrooper.packetevents.util.viaversion.ViaVersionUtil;
 import io.netty.channel.Channel;
 import lombok.Getter;
+import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
 import org.bukkit.Bukkit;
@@ -789,18 +794,17 @@ public class GrimPlayer implements GrimUser {
 
     private int maxTransactionTime = 60;
     @Getter private boolean ignoreDuplicatePacketRotation = false;
-    @Getter private boolean experimentalChecks = false;
+    @Getter @Setter private boolean experimentalChecks = false;
     @Getter private boolean cancelDuplicatePacket = true;
-    @Getter private boolean exemptElytra = false;
+    @Getter @Setter private boolean exemptElytra = false;
 
     @Override
     public void reload(ConfigManager config) {
+        featureManager.onReload(config);
         spamThreshold = config.getIntElse("packet-spam-threshold", 100);
         maxTransactionTime = GrimMath.clamp(config.getIntElse("max-transaction-time", 60), 1, 180);
-        experimentalChecks = config.getBooleanElse("experimental-checks", false);
         ignoreDuplicatePacketRotation = config.getBooleanElse("ignore-duplicate-packet-rotation", false);
         cancelDuplicatePacket = config.getBooleanElse("cancel-duplicate-packet", true);
-        exemptElytra = config.getBooleanElse("exempt-elytra", false);
         // reload all checks
         for (AbstractCheck value : checkManager.allChecks.values()) value.reload();
         // reload punishment manager
@@ -918,4 +922,24 @@ public class GrimPlayer implements GrimUser {
             }
         }
     }
+
+    private final FeatureManagerImpl featureManager = new FeatureManagerImpl(this);
+
+    @Override
+    public FeatureManager getFeatureManager() {
+        return featureManager;
+    }
+
+    private ResyncHandler resyncHandler = new BukkitResyncHandler(this);
+
+    @Override
+    public ResyncHandler getResyncHandler() {
+        return resyncHandler;
+    }
+
+    @Override
+    public void setResyncHandler(ResyncHandler resyncHandler) {
+        this.resyncHandler = resyncHandler;
+    }
+
 }
