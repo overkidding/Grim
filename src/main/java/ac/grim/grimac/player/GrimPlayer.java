@@ -718,6 +718,21 @@ public class GrimPlayer implements GrimUser {
     }
 
     @Override
+    public int getLastTransactionReceived() {
+        return lastTransactionReceived.get();
+    }
+
+    @Override
+    public int getLastTransactionSent() {
+        return lastTransactionSent.get();
+    }
+
+    @Override
+    public void addRealTimeTask(int transaction, Runnable runnable) {
+        latencyUtils.addRealTimeTask(transaction, runnable);
+    }
+
+    @Override
     public String getName() {
         return user.getName();
     }
@@ -730,6 +745,16 @@ public class GrimPlayer implements GrimUser {
     @Override
     public String getBrand() {
         return checkManager.getPacketCheck(ClientBrand.class).getBrand();
+    }
+
+    @Override
+    public @Nullable String getWorldName() {
+        return bukkitPlayer != null ? bukkitPlayer.getWorld().getName() : null;
+    }
+
+    @Override
+    public @Nullable UUID getWorldUID() {
+        return bukkitPlayer != null ? bukkitPlayer.getWorld().getUID() : null;
     }
 
     @Override

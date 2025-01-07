@@ -22,6 +22,7 @@ import org.bukkit.plugin.ServicePriority;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -40,6 +41,13 @@ public class GrimExternalAPI implements GrimAbstractAPI, ConfigReloadObserver, I
     @Override
     public GrimUser getGrimUser(Player player) {
         return api.getPlayerDataManager().getPlayer(player);
+    }
+
+    @Override
+    public @Nullable GrimUser getGrimUser(UUID uuid) {
+        Player player = Bukkit.getPlayer(uuid);
+        if (player == null) return null;
+        return getGrimUser(player);
     }
 
     @Override
@@ -116,6 +124,11 @@ public class GrimExternalAPI implements GrimAbstractAPI, ConfigReloadObserver, I
     @Override
     public boolean hasStarted() {
         return started;
+    }
+
+    @Override
+    public int getCurrentTick() {
+        return GrimAPI.INSTANCE.getTickManager().currentTick;
     }
 
     private ConfigManager configManager = null;
