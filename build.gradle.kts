@@ -71,7 +71,7 @@ dependencies {
 
     // Used for local testing:
     //implementation("ac.grim.grimac:GrimAPI:1.0")
-    implementation("com.github.grimanticheat:grimapi:4667c13a64")
+    implementation("com.github.grimanticheat:grimapi:ed1ec7b4a1")
 
     implementation("net.kyori:adventure-text-minimessage:4.17.0")
     implementation("net.kyori:adventure-platform-bukkit:4.3.4")
