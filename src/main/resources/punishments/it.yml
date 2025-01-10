@@ -63,6 +63,7 @@ Punishments:
       - "Baritone"
       - "Break"
       - "TransactionOrder"
+      - "Elytra"
     commands:
       - "10:5 [alert]"
       - "20:10 [webhook]"
