@@ -11,6 +11,8 @@ import ac.grim.grimac.checks.impl.combat.MultiInteractA;
 import ac.grim.grimac.checks.impl.combat.MultiInteractB;
 import ac.grim.grimac.checks.impl.combat.Reach;
 import ac.grim.grimac.checks.impl.crash.*;
+import ac.grim.grimac.checks.impl.elytra.ElytraA;
+import ac.grim.grimac.checks.impl.elytra.ElytraB;
 import ac.grim.grimac.checks.impl.exploit.ExploitA;
 import ac.grim.grimac.checks.impl.exploit.ExploitB;
 import ac.grim.grimac.checks.impl.groundspoof.NoFall;
@@ -152,6 +154,8 @@ public class CheckManager {
                 .put(SprintE.class, new SprintE(player))
                 .put(MultiInteractA.class, new MultiInteractA(player))
                 .put(MultiInteractB.class, new MultiInteractB(player))
+                .put(ElytraA.class, new ElytraA(player))
+                .put(ElytraB.class, new ElytraB(player))
                 .put(SetbackTeleportUtil.class, new SetbackTeleportUtil(player)) // Avoid teleporting to new position, update safe pos last
                 .put(CompensatedFireworks.class, player.compensatedFireworks)
                 .put(SneakingEstimator.class, new SneakingEstimator(player))

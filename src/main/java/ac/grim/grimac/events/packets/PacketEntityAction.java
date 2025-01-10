@@ -1,6 +1,7 @@
 package ac.grim.grimac.events.packets;
 
 import ac.grim.grimac.GrimAPI;
+import ac.grim.grimac.checks.impl.elytra.ElytraA;
 import ac.grim.grimac.player.GrimPlayer;
 import com.github.retrooper.packetevents.event.PacketListenerAbstract;
 import com.github.retrooper.packetevents.event.PacketListenerPriority;
@@ -59,6 +60,7 @@ public class PacketEntityAction extends PacketListenerAbstract {
                     // TODO: Remove this?
                     if (chestPlate != null && chestPlate.getType() == ItemTypes.ELYTRA
                             && chestPlate.getDamageValue() < chestPlate.getMaxDamage()) {
+                        player.checkManager.getPostPredictionCheck(ElytraA.class).onStartGliding(event);
                         player.isGliding = true;
                         player.pointThreeEstimator.updatePlayerGliding();
                     } else {
