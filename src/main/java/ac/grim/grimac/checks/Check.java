@@ -68,7 +68,7 @@ public class Check extends GrimProcessor implements AbstractCheck {
     }
 
     public final boolean flagAndAlert(String verbose) {
-        if (flag()) {
+        if (flag(verbose)) {
             alert(verbose);
             return true;
         }
