@@ -153,6 +153,7 @@ public class CheckManager {
                 .put(SprintC.class, new SprintC(player))
                 .put(SprintD.class, new SprintD(player))
                 .put(SprintE.class, new SprintE(player))
+                .put(SprintF.class, new SprintF(player))
                 .put(MultiInteractA.class, new MultiInteractA(player))
                 .put(MultiInteractB.class, new MultiInteractB(player))
                 .put(ElytraA.class, new ElytraA(player))
