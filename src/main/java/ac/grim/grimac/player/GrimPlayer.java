@@ -37,8 +37,13 @@ import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import com.github.retrooper.packetevents.netty.channel.ChannelHelper;
 import com.github.retrooper.packetevents.protocol.ConnectionState;
 import com.github.retrooper.packetevents.protocol.attribute.Attributes;
+import com.github.retrooper.packetevents.protocol.component.ComponentTypes;
+import com.github.retrooper.packetevents.protocol.component.builtin.item.ItemEquippable;
 import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes;
+import com.github.retrooper.packetevents.protocol.item.ItemStack;
+import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
 import com.github.retrooper.packetevents.protocol.player.ClientVersion;
+import com.github.retrooper.packetevents.protocol.player.EquipmentSlot;
 import com.github.retrooper.packetevents.protocol.player.GameMode;
 import com.github.retrooper.packetevents.protocol.player.User;
 import com.github.retrooper.packetevents.protocol.world.BlockFace;
@@ -698,6 +703,29 @@ public class GrimPlayer implements GrimUser {
                 compensatedEntities.hasSprintingAttributeEnabled = false;
             }
         });
+    }
+
+    public boolean canGlide() {
+        if (getClientVersion().isOlderThan(ClientVersion.V_1_21_2)) {
+            final ItemStack chestPlate = getInventory().getChestplate();
+            return chestPlate.getType() == ItemTypes.ELYTRA && chestPlate.getDamageValue() < chestPlate.getMaxDamage();
+        }
+
+        final CompensatedInventory inventory = getInventory();
+        // PacketEvents mappings are wrong
+        return isGlider(inventory.getHelmet(), EquipmentSlot.CHEST_PLATE)
+                || isGlider(inventory.getChestplate(), EquipmentSlot.LEGGINGS)
+                || isGlider(inventory.getLeggings(), EquipmentSlot.BOOTS)
+                || isGlider(inventory.getBoots(), EquipmentSlot.OFF_HAND);
+    }
+
+    private static boolean isGlider(ItemStack stack, EquipmentSlot slot) {
+        if (!stack.hasComponent(ComponentTypes.GLIDER) || stack.getDamageValue() >= stack.getMaxDamage()) {
+            return false;
+        }
+
+        Optional<ItemEquippable> equippable = stack.getComponent(ComponentTypes.EQUIPPABLE);
+        return equippable.isPresent() && equippable.get().getSlot() == slot;
     }
 
     public boolean canUseGameMasterBlocks() {

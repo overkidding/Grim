@@ -6,8 +6,6 @@ import ac.grim.grimac.player.GrimPlayer;
 import com.github.retrooper.packetevents.event.PacketListenerAbstract;
 import com.github.retrooper.packetevents.event.PacketListenerPriority;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
-import com.github.retrooper.packetevents.protocol.item.ItemStack;
-import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.protocol.player.ClientVersion;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientEntityAction;
@@ -54,13 +52,11 @@ public class PacketEntityAction extends PacketListenerAbstract {
                     }
                     // Starting fall flying is server sided on 1.14 and below
                     if (player.getClientVersion().isOlderThan(ClientVersion.V_1_15)) return;
-                    ItemStack chestPlate = player.getInventory().getChestplate();
+                    player.checkManager.getPostPredictionCheck(ElytraA.class).onStartGliding(event);
 
                     // This shouldn't be needed with latency compensated inventories
                     // TODO: Remove this?
-                    if (chestPlate != null && chestPlate.getType() == ItemTypes.ELYTRA
-                            && chestPlate.getDamageValue() < chestPlate.getMaxDamage()) {
-                        player.checkManager.getPostPredictionCheck(ElytraA.class).onStartGliding(event);
+                    if (player.canGlide()) {
                         player.isGliding = true;
                         player.pointThreeEstimator.updatePlayerGliding();
                     } else {
