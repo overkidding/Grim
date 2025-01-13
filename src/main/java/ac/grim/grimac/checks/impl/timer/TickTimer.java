@@ -23,16 +23,22 @@ public class TickTimer extends Check implements PostPredictionCheck {
         if (!player.supportsEndTick()) return;
         if (isFlying(event.getPacketType()) && !player.packetStateData.lastPacketWasTeleport) {
             if (!receivedTickEnd && flagAndAlert("type=flying, packets=" + flyingPackets)) {
-                setbackIfAboveSetbackVL();
+                handleViolation();
             }
             receivedTickEnd = false;
             flyingPackets++;
         } else if (event.getPacketType() == PacketType.Play.Client.CLIENT_TICK_END) {
             receivedTickEnd = true;
             if (flyingPackets > 1 && flagAndAlert("type=end, packets=" + flyingPackets)) {
-                setbackIfAboveSetbackVL();
+                handleViolation();
             }
             flyingPackets = 0;
         }
+    }
+
+    private void handleViolation() {
+        setbackIfAboveSetbackVL();
+        // Although we don't cancel the packet, this should be counted as an invalid packet.
+        player.onPacketCancel();
     }
 }
