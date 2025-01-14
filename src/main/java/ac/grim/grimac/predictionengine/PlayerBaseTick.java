@@ -60,7 +60,7 @@ public final class PlayerBaseTick {
             player.trackBaseTickAddition(waterPushVector);
         }
 
-        final boolean wasSlowMovement = player.isSlowMovement;
+        player.lastPose = player.pose;
 
         if (player.getClientVersion().isOlderThanOrEquals(ClientVersion.V_1_13_2)) {
             // 1.13.2 and below logic: If crouching, then slow movement, simple!

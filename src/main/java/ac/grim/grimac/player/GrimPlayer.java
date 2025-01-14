@@ -164,6 +164,7 @@ public class GrimPlayer implements GrimUser {
     public double fallDistance;
     public SimpleCollisionBox boundingBox;
     public Pose pose = Pose.STANDING;
+    public Pose lastPose = Pose.STANDING;
     // Determining slow movement has to be done before pose is updated
     public boolean isSlowMovement = false;
     public boolean isInBed = false;
