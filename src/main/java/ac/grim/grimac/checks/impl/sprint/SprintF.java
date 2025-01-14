@@ -15,8 +15,12 @@ public class SprintF extends Check implements PostPredictionCheck {
 
     @Override
     public void onPredictionComplete(final PredictionComplete predictionComplete) {
-        if (player.wasGliding && player.isSprinting && player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_21_4)) {
-            if (flagAndAlert()) setbackIfAboveSetbackVL();
+        if (player.wasGliding && player.isGliding && player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_21_4)) {
+            if (player.isSprinting) {
+                if (flagAndAlert()) setbackIfAboveSetbackVL();
+            } else {
+                reward();
+            }
         }
     }
 }
