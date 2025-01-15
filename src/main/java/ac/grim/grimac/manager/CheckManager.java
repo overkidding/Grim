@@ -14,6 +14,7 @@ import ac.grim.grimac.checks.impl.crash.*;
 import ac.grim.grimac.checks.impl.elytra.ElytraA;
 import ac.grim.grimac.checks.impl.elytra.ElytraB;
 import ac.grim.grimac.checks.impl.elytra.ElytraC;
+import ac.grim.grimac.checks.impl.elytra.ElytraD;
 import ac.grim.grimac.checks.impl.exploit.ExploitA;
 import ac.grim.grimac.checks.impl.exploit.ExploitB;
 import ac.grim.grimac.checks.impl.exploit.ExploitC;
@@ -160,6 +161,7 @@ public class CheckManager {
                 .put(ElytraA.class, new ElytraA(player))
                 .put(ElytraB.class, new ElytraB(player))
                 .put(ElytraC.class, new ElytraC(player))
+                .put(ElytraD.class, new ElytraD(player))
                 .put(SetbackTeleportUtil.class, new SetbackTeleportUtil(player)) // Avoid teleporting to new position, update safe pos last
                 .put(CompensatedFireworks.class, player.compensatedFireworks)
                 .put(SneakingEstimator.class, new SneakingEstimator(player))
