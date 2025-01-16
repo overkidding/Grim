@@ -32,6 +32,9 @@ import ac.grim.grimac.checks.impl.timer.NegativeTimer;
 import ac.grim.grimac.checks.impl.timer.TickTimer;
 import ac.grim.grimac.checks.impl.timer.Timer;
 import ac.grim.grimac.checks.impl.timer.VehicleTimer;
+import ac.grim.grimac.checks.impl.vehicle.VehicleA;
+import ac.grim.grimac.checks.impl.vehicle.VehicleB;
+import ac.grim.grimac.checks.impl.vehicle.VehicleC;
 import ac.grim.grimac.checks.impl.velocity.ExplosionHandler;
 import ac.grim.grimac.checks.impl.velocity.KnockbackHandler;
 import ac.grim.grimac.checks.type.*;
@@ -89,7 +92,6 @@ public class CheckManager {
                 .put(NoFall.class, new NoFall(player))
                 .put(BadPacketsO.class, new BadPacketsO(player))
                 .put(BadPacketsA.class, new BadPacketsA(player))
-                .put(BadPacketsB.class, new BadPacketsB(player))
                 .put(BadPacketsC.class, new BadPacketsC(player))
                 .put(BadPacketsD.class, new BadPacketsD(player))
                 .put(BadPacketsE.class, new BadPacketsE(player))
@@ -97,7 +99,6 @@ public class CheckManager {
                 .put(BadPacketsG.class, new BadPacketsG(player))
                 .put(BadPacketsH.class, new BadPacketsH(player))
                 .put(BadPacketsI.class, new BadPacketsI(player))
-                .put(BadPacketsJ.class, new BadPacketsJ(player))
                 .put(BadPacketsK.class, new BadPacketsK(player))
                 .put(BadPacketsL.class, new BadPacketsL(player))
                 .put(BadPacketsM.class, new BadPacketsM(player))
@@ -118,6 +119,8 @@ public class CheckManager {
                 .put(MultiActionsE.class, new MultiActionsE(player))
                 .put(TransactionOrder.class, new TransactionOrder(player))
                 .put(SprintA.class, new SprintA(player))
+                .put(VehicleA.class, new VehicleA(player))
+                .put(VehicleB.class, new VehicleB(player))
                 .put(SetbackBlocker.class, new SetbackBlocker(player)) // Must be last class otherwise we can't check while blocking packets
                 .build();
         positionCheck = new ImmutableClassToInstanceMap.Builder<PositionCheck>()
@@ -145,7 +148,7 @@ public class CheckManager {
                 .put(OffsetHandler.class, new OffsetHandler(player))
                 .put(SuperDebug.class, new SuperDebug(player))
                 .put(DebugHandler.class, new DebugHandler(player))
-                .put(EntityControl.class, new EntityControl(player))
+                .put(VehicleC.class, new VehicleC(player))
                 .put(BadPacketsX.class, new BadPacketsX(player))
                 .put(NoSlow.class, new NoSlow(player))
                 .put(SprintB.class, new SprintB(player))
