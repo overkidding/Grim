@@ -553,7 +553,7 @@ public class GrimPlayer implements GrimUser {
         FoliaScheduler.getAsyncScheduler().runNow(GrimAPI.INSTANCE.getPlugin(), t -> {
             for (AbstractCheck check : checkManager.allChecks.values()) {
                 if (check instanceof Check) {
-                    ((Check) check).updateExempted();
+                    ((Check) check).updatePermissions();
                 }
             }
         });

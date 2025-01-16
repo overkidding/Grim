@@ -394,17 +394,21 @@ public class CheckManager {
     }
 
     private void init() {
-        // Fast non-thread safe check
-        if (inited) return;
-        // Slow thread safe check
-        if (!initedAtomic.compareAndSet(false, true)) return;
+        if (inited || initedAtomic.getAndSet(true)) return;
         inited = true;
 
-        for (AbstractCheck check : allChecks.values()) {
-            if (check.getCheckName() != null) {
-                String permissionName = "grim.exempt." + check.getCheckName().toLowerCase();
-                Permission permission = Bukkit.getPluginManager().getPermission(permissionName);
+        final String[] permissions = {
+                "grim.exempt.",
+                "grim.nosetback.",
+                "grim.nomodifypacket.",
+        };
 
+        for (final AbstractCheck check : allChecks.values()) {
+            if (check.getCheckName() == null) continue;
+            final String id = check.getCheckName().toLowerCase();
+            for (String permissionName : permissions) {
+                permissionName += id;
+                final Permission permission = Bukkit.getPluginManager().getPermission(permissionName);
                 if (permission == null) {
                     Bukkit.getPluginManager().addPermission(new Permission(permissionName, PermissionDefault.FALSE));
                 } else {

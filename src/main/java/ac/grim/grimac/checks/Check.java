@@ -32,7 +32,10 @@ public class Check extends GrimProcessor implements AbstractCheck {
     private boolean experimental;
     @Setter
     private boolean isEnabled;
-    private boolean exempted;
+
+    private boolean exemptPermission;
+    private boolean noSetbackPermission;
+    private boolean noModifyPacketPermission;
 
     public Check(final GrimPlayer player) {
         this.player = player;
@@ -57,14 +60,22 @@ public class Check extends GrimProcessor implements AbstractCheck {
     }
 
     public boolean shouldModifyPackets() {
-        return isEnabled && !player.disableGrim && !player.noModifyPacketPermission && !exempted;
+        return isEnabled && !player.disableGrim && !player.noModifyPacketPermission && !exemptPermission;
     }
 
-    public void updateExempted() {
+    public void updatePermissions() {
         if (player.bukkitPlayer == null || checkName == null) return;
-        FoliaScheduler.getEntityScheduler().run(player.bukkitPlayer, GrimAPI.INSTANCE.getPlugin(),
-                t -> exempted = player.bukkitPlayer.hasPermission("grim.exempt." + checkName.toLowerCase()),
-                () -> {});
+        FoliaScheduler.getEntityScheduler().run(
+                player.bukkitPlayer,
+                GrimAPI.INSTANCE.getPlugin(),
+                t -> {
+                    final String id = checkName.toLowerCase();
+                    exemptPermission = player.bukkitPlayer.hasPermission("grim.exempt." + id);
+                    noSetbackPermission = player.bukkitPlayer.hasPermission("grim.nosetback." + id);
+                    noModifyPacketPermission = player.bukkitPlayer.hasPermission("grim.nomodifypacket." + id);
+                },
+                () -> {}
+        );
     }
 
     public final boolean flagAndAlert(String verbose) {
@@ -86,7 +97,7 @@ public class Check extends GrimProcessor implements AbstractCheck {
     private long lastViolationTime;
 
     public final boolean flag(String verbose) {
-        if (player.disableGrim || (experimental && !player.isExperimentalChecks()) || exempted)
+        if (player.disableGrim || (experimental && !player.isExperimentalChecks()) || exemptPermission)
             return false; // Avoid calling event if disabled
 
         FlagEvent event = new FlagEvent(player, this, verbose);
@@ -119,7 +130,7 @@ public class Check extends GrimProcessor implements AbstractCheck {
         description = configuration.getStringElse(configName + ".description", description);
 
         if (setbackVL == -1) setbackVL = Double.MAX_VALUE;
-        updateExempted();
+        updatePermissions();
         onReload(configuration);
     }
 
@@ -133,14 +144,14 @@ public class Check extends GrimProcessor implements AbstractCheck {
     }
 
     public boolean setbackIfAboveSetbackVL() {
-        if (getViolations() > setbackVL) {
+        if (shouldSetback()) {
             return player.getSetbackTeleportUtil().executeViolationSetback();
         }
         return false;
     }
 
-    public boolean isAboveSetbackVl() {
-        return getViolations() > setbackVL;
+    public boolean shouldSetback() {
+        return !noSetbackPermission && violations > setbackVL;
     }
 
     public String formatOffset(double offset) {
