@@ -40,10 +40,8 @@ public class Check extends GrimProcessor implements AbstractCheck {
     public Check(final GrimPlayer player) {
         this.player = player;
 
-        final Class<?> checkClass = this.getClass();
-
-        if (checkClass.isAnnotationPresent(CheckData.class)) {
-            final CheckData checkData = checkClass.getAnnotation(CheckData.class);
+        final CheckData checkData = this.getClass().getAnnotation(CheckData.class);
+        if (checkData != null) {
             this.checkName = checkData.name();
             this.configName = checkData.configName();
             // Fall back to check name
