@@ -160,6 +160,10 @@ public class CheckManager {
                 .put(ElytraC.class, new ElytraC(player))
                 .put(ElytraD.class, new ElytraD(player))
                 .put(ElytraE.class, new ElytraE(player))
+                .put(ElytraF.class, new ElytraF(player))
+                .put(ElytraG.class, new ElytraG(player))
+                .put(ElytraH.class, new ElytraH(player))
+                .put(ElytraI.class, new ElytraI(player))
                 .put(SetbackTeleportUtil.class, new SetbackTeleportUtil(player)) // Avoid teleporting to new position, update safe pos last
                 .put(CompensatedFireworks.class, player.compensatedFireworks)
                 .put(SneakingEstimator.class, new SneakingEstimator(player))
