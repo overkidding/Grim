@@ -30,6 +30,7 @@ public class ElytraB extends Check implements PostPredictionCheck {
                     if (shouldModifyPackets()) {
                         event.setCancelled(true);
                         player.onPacketCancel();
+                        player.resyncPose();
                     }
                 }
             } else {
@@ -40,9 +41,6 @@ public class ElytraB extends Check implements PostPredictionCheck {
         if (isUpdate(event.getPacketType())) {
             if (glide && !player.packetStateData.knownInput.jump() && flagAndAlert("no jump")) {
                 setback = true;
-                if (shouldModifyPackets()) {
-                    player.bukkitPlayer.setGliding(false);
-                }
             }
 
             glide = false;

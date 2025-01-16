@@ -729,6 +729,12 @@ public class GrimPlayer implements GrimUser {
         return equippable.isPresent() && equippable.get().getSlot() == slot;
     }
 
+    public void resyncPose() {
+        if (getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_14) && bukkitPlayer != null) {
+            bukkitPlayer.setSneaking(!bukkitPlayer.isSneaking());
+        }
+    }
+
     public boolean canUseGameMasterBlocks() {
         // This check was added in 1.11
         // 1.11+ players must be in creative and have a permission level at or above 2
