@@ -35,6 +35,7 @@ import ac.grim.grimac.checks.impl.timer.VehicleTimer;
 import ac.grim.grimac.checks.impl.vehicle.VehicleA;
 import ac.grim.grimac.checks.impl.vehicle.VehicleB;
 import ac.grim.grimac.checks.impl.vehicle.VehicleC;
+import ac.grim.grimac.checks.impl.vehicle.VehicleD;
 import ac.grim.grimac.checks.impl.velocity.ExplosionHandler;
 import ac.grim.grimac.checks.impl.velocity.KnockbackHandler;
 import ac.grim.grimac.checks.type.*;
@@ -122,6 +123,7 @@ public class CheckManager {
                 .put(VehicleA.class, new VehicleA(player))
                 .put(VehicleB.class, new VehicleB(player))
                 .put(VehicleC.class, new VehicleC(player))
+                .put(VehicleD.class, new VehicleD(player))
                 .put(SetbackBlocker.class, new SetbackBlocker(player)) // Must be last class otherwise we can't check while blocking packets
                 .build();
         positionCheck = new ImmutableClassToInstanceMap.Builder<PositionCheck>()
