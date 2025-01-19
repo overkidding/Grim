@@ -4,7 +4,6 @@ import ac.grim.grimac.GrimAPI;
 import ac.grim.grimac.api.config.ConfigManager;
 import ac.grim.grimac.api.feature.FeatureManager;
 import ac.grim.grimac.api.feature.FeatureState;
-import ac.grim.grimac.manager.player.features.types.ExemptElytraFeature;
 import ac.grim.grimac.manager.player.features.types.ExperimentalChecksFeature;
 import ac.grim.grimac.manager.player.features.types.GrimFeature;
 import ac.grim.grimac.player.GrimPlayer;
@@ -22,11 +21,11 @@ public class FeatureManagerImpl implements FeatureManager, ConfigReloadObserver 
     static {
         FeatureBuilder builder = new FeatureBuilder();
         builder.register(new ExperimentalChecksFeature());
-        builder.register(new ExemptElytraFeature());
         FEATURES = builder.buildMap();
     }
 
-    @Getter private static final Map<String, GrimFeature> FEATURES;
+    @Getter
+    private static final Map<String, GrimFeature> FEATURES;
 
     private final Map<String, FeatureState> states = new HashMap<>();
 
@@ -62,16 +61,6 @@ public class FeatureManagerImpl implements FeatureManager, ConfigReloadObserver 
         return true;
     }
 
-    private void update(GrimFeature feature, ConfigManager config, FeatureState state) {
-        if (state == FeatureState.ENABLED) {
-            feature.setEnabled(player, true);
-        } else if (state == FeatureState.DISABLED) {
-            feature.setEnabled(player, false);
-        } else {
-            feature.setEnabled(player, feature.isEnabledInConfig(player, config));
-        }
-    }
-
     @Override
     public void reload() {
         onReload(GrimAPI.INSTANCE.getExternalAPI().getConfigManager());
@@ -84,7 +73,7 @@ public class FeatureManagerImpl implements FeatureManager, ConfigReloadObserver 
             FeatureState state = entry.getValue();
             GrimFeature feature = FEATURES.get(key);
             if (feature == null) continue;
-            update(feature, config, state);
+            feature.setState(player, config, state);
         }
     }
 
