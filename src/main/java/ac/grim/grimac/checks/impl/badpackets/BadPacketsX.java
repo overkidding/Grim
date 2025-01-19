@@ -44,7 +44,7 @@ public class BadPacketsX extends Check implements PostPredictionCheck {
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
-        if (player.gamemode == GameMode.SPECTATOR || player.vehicleData.wasVehicleSwitch || isTickPacket(event.getPacketType())) {
+        if (player.gamemode == GameMode.SPECTATOR || isTickPacket(event.getPacketType())) {
             sprint = sneak = false;
             return;
         }
@@ -61,6 +61,10 @@ public class BadPacketsX extends Check implements PostPredictionCheck {
                     sneak = true;
                 }
                 case START_SPRINTING, STOP_SPRINTING -> {
+                    if (player.inVehicle()) {
+                        return;
+                    }
+
                     if (sprint) {
                         if (player.canSkipTicks() || flagAndAlert()) {
                             flags++;
