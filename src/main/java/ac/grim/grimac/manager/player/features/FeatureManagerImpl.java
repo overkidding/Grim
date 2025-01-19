@@ -4,6 +4,7 @@ import ac.grim.grimac.GrimAPI;
 import ac.grim.grimac.api.config.ConfigManager;
 import ac.grim.grimac.api.feature.FeatureManager;
 import ac.grim.grimac.api.feature.FeatureState;
+import ac.grim.grimac.manager.player.features.types.ExemptElytraFeature;
 import ac.grim.grimac.manager.player.features.types.ExperimentalChecksFeature;
 import ac.grim.grimac.manager.player.features.types.GrimFeature;
 import ac.grim.grimac.player.GrimPlayer;
@@ -21,6 +22,7 @@ public class FeatureManagerImpl implements FeatureManager, ConfigReloadObserver 
     static {
         FeatureBuilder builder = new FeatureBuilder();
         builder.register(new ExperimentalChecksFeature());
+        builder.register(new ExemptElytraFeature());
         FEATURES = builder.buildMap();
     }
 
