@@ -55,11 +55,11 @@ public class PacketPlayerAttack extends PacketListenerAbstract {
                             ? heldItem.getEnchantmentLevel(EnchantmentTypes.KNOCKBACK, PacketEvents.getAPI().getServerManager().getVersion().toClientVersion())
                             : 0;
 
-                    if (player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_17_1)) {
+                    boolean isLegacyPlayer = player.getClientVersion().isOlderThanOrEquals(ClientVersion.V_1_8);
+
+                    if (!isLegacyPlayer) {
                         knockbackLevel = Math.max(knockbackLevel, 0);
                     }
-
-                    boolean isLegacyPlayer = player.getClientVersion().isOlderThanOrEquals(ClientVersion.V_1_8);
 
                     // 1.8 players who are packet sprinting WILL get slowed
                     // 1.9+ players who are packet sprinting might not, based on attack cooldown
