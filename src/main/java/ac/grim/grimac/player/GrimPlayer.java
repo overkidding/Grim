@@ -89,7 +89,7 @@ import java.util.function.Predicate;
 public class GrimPlayer implements GrimUser {
     private static final @Nullable Consumer<@NotNull Player> resetActiveBukkitItem;
     private static final @Nullable Predicate<@NotNull Player> isUsingBukkitItem;
-    public UUID playerUUID;
+    public UUID uuid;
     public final User user;
     public int entityID;
     @Nullable
@@ -199,9 +199,9 @@ public class GrimPlayer implements GrimUser {
     public boolean skippedTickInActualMovement = false;
     // You cannot initialize everything here for some reason
     public LastInstanceManager lastInstanceManager;
-    public CompensatedFireworks compensatedFireworks;
-    public CompensatedWorld compensatedWorld;
-    public CompensatedEntities compensatedEntities;
+    public final CompensatedFireworks fireworks;
+    public final CompensatedWorld world;
+    public final CompensatedEntities entities;
     public LatencyUtils latencyUtils;
     public PointThreeEstimator pointThreeEstimator;
     public TrigHandler trigHandler;
@@ -216,8 +216,8 @@ public class GrimPlayer implements GrimUser {
     public VelocityData likelyKB = null;
     public VelocityData firstBreadExplosion = null;
     public VelocityData likelyExplosions = null;
-    public int minPlayerAttackSlow = 0;
-    public int maxPlayerAttackSlow = 0;
+    public int minAttackSlow = 0;
+    public int maxAttackSlow = 0;
     public GameMode gamemode;
     public DimensionType dimensionType;
     public Vector3d bedPosition;
@@ -244,11 +244,11 @@ public class GrimPlayer implements GrimUser {
 
     public GrimPlayer(User user) {
         this.user = user;
-        this.playerUUID = user.getUUID();
+        this.uuid = user.getUUID();
 
         boundingBox = GetBoundingBox.getBoundingBoxFromPosAndSizeRaw(x, y, z, 0.6f, 1.8f);
 
-        compensatedFireworks = new CompensatedFireworks(this); // Must be before checkmanager
+        fireworks = new CompensatedFireworks(this); // Must be before checkmanager
 
         lastInstanceManager = new LastInstanceManager(this);
         actionManager = new ActionManager(this);
@@ -257,8 +257,8 @@ public class GrimPlayer implements GrimUser {
         tagManager = new SyncedTags(this);
         movementCheckRunner = new MovementCheckRunner(this);
 
-        compensatedWorld = new CompensatedWorld(this);
-        compensatedEntities = new CompensatedEntities(this);
+        world = new CompensatedWorld(this);
+        entities = new CompensatedEntities(this);
         latencyUtils = new LatencyUtils(this);
         trigHandler = new TrigHandler(this);
         uncertaintyHandler = new UncertaintyHandler(this); // must be after checkmanager
@@ -270,7 +270,7 @@ public class GrimPlayer implements GrimUser {
         uncertaintyHandler.collidingEntities.add(0);
 
         if (getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_14)) {
-            final float scale = (float) compensatedEntities.getSelf().getAttributeValue(Attributes.SCALE);
+            final float scale = (float) entities.self.getAttributeValue(Attributes.SCALE);
             possibleEyeHeights[2] = new double[]{0.4 * scale, 1.62 * scale, 1.27 * scale}; // Elytra, standing, sneaking (1.14)
             possibleEyeHeights[1] = new double[]{1.27 * scale, 1.62 * scale, 0.4 * scale}; // sneaking (1.14), standing, Elytra
             possibleEyeHeights[0] = new double[]{1.62 * scale, 1.27 * scale, 0.4 * scale}; // standing, sneaking (1.14), Elytra
@@ -398,7 +398,7 @@ public class GrimPlayer implements GrimUser {
     }
 
     public float getMaxUpStep() {
-        final PacketEntitySelf self = compensatedEntities.getSelf();
+        final PacketEntitySelf self = entities.self;
         final PacketEntity riding = self.getRiding();
         if (riding == null) return (float) self.getAttributeValue(Attributes.STEP_HEIGHT);
 
@@ -504,13 +504,13 @@ public class GrimPlayer implements GrimUser {
             GrimAPI.INSTANCE.getPlayerDataManager().remove(user);
         }
 
-        if (packetTracker == null && ViaVersionUtil.isAvailable() && playerUUID != null) {
-            UserConnection connection = Via.getManager().getConnectionManager().getConnectedClient(playerUUID);
+        if (packetTracker == null && ViaVersionUtil.isAvailable() && uuid != null) {
+            UserConnection connection = Via.getManager().getConnectionManager().getConnectedClient(uuid);
             packetTracker = connection != null ? connection.getPacketTracker() : null;
         }
 
-        if (playerUUID != null && this.bukkitPlayer == null) {
-            this.bukkitPlayer = Bukkit.getPlayer(playerUUID);
+        if (uuid != null && this.bukkitPlayer == null) {
+            this.bukkitPlayer = Bukkit.getPlayer(uuid);
             updatePermissions();
         }
     }
@@ -595,7 +595,7 @@ public class GrimPlayer implements GrimUser {
     }
 
     public boolean inVehicle() {
-        return compensatedEntities.getSelf().inVehicle();
+        return entities.self.inVehicle();
     }
 
     public CompensatedInventory getInventory() {
@@ -649,16 +649,16 @@ public class GrimPlayer implements GrimUser {
     }
 
     public boolean exemptOnGround() {
-        return compensatedEntities.getSelf().inVehicle()
+        return inVehicle()
                 || Collections.max(uncertaintyHandler.pistonX) != 0 || Collections.max(uncertaintyHandler.pistonY) != 0
                 || Collections.max(uncertaintyHandler.pistonZ) != 0 || uncertaintyHandler.isStepMovement
-                || isFlying || compensatedEntities.getSelf().isDead || isInBed || lastInBed || uncertaintyHandler.lastFlyingStatusChange.hasOccurredSince(30)
+                || isFlying || entities.self.isDead || isInBed || lastInBed || uncertaintyHandler.lastFlyingStatusChange.hasOccurredSince(30)
                 || uncertaintyHandler.lastHardCollidingLerpingEntity.hasOccurredSince(3) || uncertaintyHandler.isOrWasNearGlitchyBlock;
     }
 
     public void handleMountVehicle(int vehicleID) {
-        compensatedEntities.serverPlayerVehicle = vehicleID;
-        TrackerData data = compensatedEntities.getTrackedEntity(vehicleID);
+        entities.serverPlayerVehicle = vehicleID;
+        TrackerData data = entities.getTrackedEntity(vehicleID);
 
         if (data != null) {
             // If we actually need to check vehicle movement
@@ -679,18 +679,18 @@ public class GrimPlayer implements GrimUser {
     }
 
     public int getRidingVehicleId() {
-        return compensatedEntities.getPacketEntityID(compensatedEntities.getSelf().getRiding());
+        return entities.getPacketEntityID(entities.self.getRiding());
     }
 
     public void handleDismountVehicle(PacketSendEvent event) {
         // Help prevent transaction split
         sendTransaction();
 
-        compensatedEntities.serverPlayerVehicle = null;
+        entities.serverPlayerVehicle = null;
         event.getTasksAfterSend().add(() -> {
-            if (compensatedEntities.getSelf().getRiding() != null) {
+            if (inVehicle()) {
                 int ridingId = getRidingVehicleId();
-                TrackerData data = compensatedEntities.serverPositionsMap.get(ridingId);
+                TrackerData data = entities.serverPositionsMap.get(ridingId);
                 if (data != null) {
                     user.writePacket(new WrapperPlayServerEntityTeleport(ridingId, new Vector3d(data.getX(), data.getY(), data.getZ()), data.getXRot(), data.getYRot(), false));
                 }
@@ -701,7 +701,7 @@ public class GrimPlayer implements GrimUser {
             this.vehicleData.wasVehicleSwitch = true;
             // Pre-1.14 players desync sprinting attribute when in vehicle to be false, sprinting itself doesn't change
             if (getClientVersion().isOlderThanOrEquals(ClientVersion.V_1_14)) {
-                compensatedEntities.hasSprintingAttributeEnabled = false;
+                entities.hasSprintingAttributeEnabled = false;
             }
         });
     }
@@ -738,7 +738,7 @@ public class GrimPlayer implements GrimUser {
     public boolean canUseGameMasterBlocks() {
         // This check was added in 1.11
         // 1.11+ players must be in creative and have a permission level at or above 2
-        return getClientVersion().isOlderThanOrEquals(ClientVersion.V_1_10) || (gamemode == GameMode.CREATIVE && compensatedEntities.getSelf().getOpLevel() >= 2);
+        return getClientVersion().isOlderThanOrEquals(ClientVersion.V_1_10) || (gamemode == GameMode.CREATIVE && entities.self.getOpLevel() >= 2);
     }
 
     @Contract(pure = true)
