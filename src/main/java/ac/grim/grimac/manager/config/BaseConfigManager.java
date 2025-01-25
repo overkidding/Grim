@@ -2,9 +2,7 @@ package ac.grim.grimac.manager.config;
 
 import ac.grim.grimac.api.config.ConfigManager;
 import ac.grim.grimac.utils.anticheat.LogUtil;
-import ac.grim.grimac.utils.anticheat.MessageUtil;
 import lombok.Getter;
-import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
 import java.util.List;
