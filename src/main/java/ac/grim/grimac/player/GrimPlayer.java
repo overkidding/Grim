@@ -200,8 +200,8 @@ public class GrimPlayer implements GrimUser {
     // You cannot initialize everything here for some reason
     public LastInstanceManager lastInstanceManager;
     public final CompensatedFireworks fireworks;
-    public final CompensatedWorld world;
-    public final CompensatedEntities entities;
+    public final CompensatedWorld compensatedWorld;
+    public final CompensatedEntities compensatedEntities;
     public LatencyUtils latencyUtils;
     public PointThreeEstimator pointThreeEstimator;
     public TrigHandler trigHandler;
@@ -257,8 +257,8 @@ public class GrimPlayer implements GrimUser {
         tagManager = new SyncedTags(this);
         movementCheckRunner = new MovementCheckRunner(this);
 
-        world = new CompensatedWorld(this);
-        entities = new CompensatedEntities(this);
+        compensatedWorld = new CompensatedWorld(this);
+        compensatedEntities = new CompensatedEntities(this);
         latencyUtils = new LatencyUtils(this);
         trigHandler = new TrigHandler(this);
         uncertaintyHandler = new UncertaintyHandler(this); // must be after checkmanager
@@ -270,7 +270,7 @@ public class GrimPlayer implements GrimUser {
         uncertaintyHandler.collidingEntities.add(0);
 
         if (getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_14)) {
-            final float scale = (float) entities.self.getAttributeValue(Attributes.SCALE);
+            final float scale = (float) compensatedEntities.self.getAttributeValue(Attributes.SCALE);
             possibleEyeHeights[2] = new double[]{0.4 * scale, 1.62 * scale, 1.27 * scale}; // Elytra, standing, sneaking (1.14)
             possibleEyeHeights[1] = new double[]{1.27 * scale, 1.62 * scale, 0.4 * scale}; // sneaking (1.14), standing, Elytra
             possibleEyeHeights[0] = new double[]{1.62 * scale, 1.27 * scale, 0.4 * scale}; // standing, sneaking (1.14), Elytra
@@ -398,7 +398,7 @@ public class GrimPlayer implements GrimUser {
     }
 
     public float getMaxUpStep() {
-        final PacketEntitySelf self = entities.self;
+        final PacketEntitySelf self = compensatedEntities.self;
         final PacketEntity riding = self.getRiding();
         if (riding == null) return (float) self.getAttributeValue(Attributes.STEP_HEIGHT);
 
@@ -595,7 +595,7 @@ public class GrimPlayer implements GrimUser {
     }
 
     public boolean inVehicle() {
-        return entities.self.inVehicle();
+        return compensatedEntities.self.inVehicle();
     }
 
     public CompensatedInventory getInventory() {
@@ -652,13 +652,13 @@ public class GrimPlayer implements GrimUser {
         return inVehicle()
                 || Collections.max(uncertaintyHandler.pistonX) != 0 || Collections.max(uncertaintyHandler.pistonY) != 0
                 || Collections.max(uncertaintyHandler.pistonZ) != 0 || uncertaintyHandler.isStepMovement
-                || isFlying || entities.self.isDead || isInBed || lastInBed || uncertaintyHandler.lastFlyingStatusChange.hasOccurredSince(30)
+                || isFlying || compensatedEntities.self.isDead || isInBed || lastInBed || uncertaintyHandler.lastFlyingStatusChange.hasOccurredSince(30)
                 || uncertaintyHandler.lastHardCollidingLerpingEntity.hasOccurredSince(3) || uncertaintyHandler.isOrWasNearGlitchyBlock;
     }
 
     public void handleMountVehicle(int vehicleID) {
-        entities.serverPlayerVehicle = vehicleID;
-        TrackerData data = entities.getTrackedEntity(vehicleID);
+        compensatedEntities.serverPlayerVehicle = vehicleID;
+        TrackerData data = compensatedEntities.getTrackedEntity(vehicleID);
 
         if (data != null) {
             // If we actually need to check vehicle movement
@@ -679,18 +679,18 @@ public class GrimPlayer implements GrimUser {
     }
 
     public int getRidingVehicleId() {
-        return entities.getPacketEntityID(entities.self.getRiding());
+        return compensatedEntities.getPacketEntityID(compensatedEntities.self.getRiding());
     }
 
     public void handleDismountVehicle(PacketSendEvent event) {
         // Help prevent transaction split
         sendTransaction();
 
-        entities.serverPlayerVehicle = null;
+        compensatedEntities.serverPlayerVehicle = null;
         event.getTasksAfterSend().add(() -> {
             if (inVehicle()) {
                 int ridingId = getRidingVehicleId();
-                TrackerData data = entities.serverPositionsMap.get(ridingId);
+                TrackerData data = compensatedEntities.serverPositionsMap.get(ridingId);
                 if (data != null) {
                     user.writePacket(new WrapperPlayServerEntityTeleport(ridingId, new Vector3d(data.getX(), data.getY(), data.getZ()), data.getXRot(), data.getYRot(), false));
                 }
@@ -701,7 +701,7 @@ public class GrimPlayer implements GrimUser {
             this.vehicleData.wasVehicleSwitch = true;
             // Pre-1.14 players desync sprinting attribute when in vehicle to be false, sprinting itself doesn't change
             if (getClientVersion().isOlderThanOrEquals(ClientVersion.V_1_14)) {
-                entities.hasSprintingAttributeEnabled = false;
+                compensatedEntities.hasSprintingAttributeEnabled = false;
             }
         });
     }
@@ -738,7 +738,7 @@ public class GrimPlayer implements GrimUser {
     public boolean canUseGameMasterBlocks() {
         // This check was added in 1.11
         // 1.11+ players must be in creative and have a permission level at or above 2
-        return getClientVersion().isOlderThanOrEquals(ClientVersion.V_1_10) || (gamemode == GameMode.CREATIVE && entities.self.getOpLevel() >= 2);
+        return getClientVersion().isOlderThanOrEquals(ClientVersion.V_1_10) || (gamemode == GameMode.CREATIVE && compensatedEntities.self.getOpLevel() >= 2);
     }
 
     @Contract(pure = true)
