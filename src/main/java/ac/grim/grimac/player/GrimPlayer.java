@@ -18,6 +18,7 @@ import ac.grim.grimac.predictionengine.MovementCheckRunner;
 import ac.grim.grimac.predictionengine.PointThreeEstimator;
 import ac.grim.grimac.predictionengine.UncertaintyHandler;
 import ac.grim.grimac.utils.anticheat.LogUtil;
+import ac.grim.grimac.utils.anticheat.MessageUtil;
 import ac.grim.grimac.utils.change.PlayerBlockHistory;
 import ac.grim.grimac.utils.collisions.datatypes.SimpleCollisionBox;
 import ac.grim.grimac.utils.data.*;
@@ -230,7 +231,7 @@ public class GrimPlayer implements GrimUser {
     public void onPacketCancel() {
         if (spamThreshold != -1 && cancelledPackets.incrementAndGet() > spamThreshold) {
             LogUtil.info("Disconnecting " + getName() + " for spamming invalid packets, packets cancelled within a second " + cancelledPackets);
-            disconnect(GrimAPI.INSTANCE.getConfigManager().getDisconnectClosed());
+            disconnect(MessageUtil.miniMessage(MessageUtil.replacePlaceholders(this, GrimAPI.INSTANCE.getConfigManager().getDisconnectClosed())));
             cancelledPackets.set(0);
         }
     }
@@ -463,7 +464,7 @@ public class GrimPlayer implements GrimUser {
     }
 
     public void timedOut() {
-        disconnect(GrimAPI.INSTANCE.getConfigManager().getDisconnectTimeout());
+        disconnect(MessageUtil.miniMessage(MessageUtil.replacePlaceholders(this, GrimAPI.INSTANCE.getConfigManager().getDisconnectTimeout())));
     }
 
     public void disconnect(Component reason) {
