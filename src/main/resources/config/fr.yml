@@ -18,6 +18,8 @@ alerts:
 verbose:
   print-to-console: false
 
+check-for-updates: true
+
 client-brand:
   # Cela signifie qu'il n'enverra pas la nature du client aux opérateurs si il correspond aux clients suivants
   ignored-clients:
