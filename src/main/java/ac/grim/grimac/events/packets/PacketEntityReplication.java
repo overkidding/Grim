@@ -256,7 +256,7 @@ public class PacketEntityReplication extends Check implements PacketCheck {
             WrapperPlayServerSetSlot slot = new WrapperPlayServerSetSlot(event);
 
             if (slot.getWindowId() == 0) {
-                if (player.isMitigateDesyncNoSlow() && GrimMath.inRange(slot.getSlot(), 36, 44)) {
+                if (player.isMitigateDesyncNoSlow() && player.packetStateData.lastSlotSelected + 36 == slot.getSlot()) {
                     BukkitNMS.resetBukkitItemUsage(player.bukkitPlayer);
                 }
 
