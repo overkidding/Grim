@@ -9,7 +9,7 @@ import ac.grim.grimac.utils.enums.FluidTag;
 import ac.grim.grimac.utils.enums.Pose;
 import com.github.retrooper.packetevents.protocol.player.ClientVersion;
 
-@CheckData(name = "SprintB", description = "Sprinting while sneaking", setback = 5, experimental = true)
+@CheckData(name = "SprintB", description = "Sprinting while sneaking or crawling", setback = 5, experimental = true)
 public class SprintB extends Check implements PostPredictionCheck {
     public SprintB(GrimPlayer player) {
         super(player);
@@ -23,7 +23,7 @@ public class SprintB extends Check implements PostPredictionCheck {
             ClientVersion version = player.getClientVersion();
 
             // https://bugs.mojang.com/browse/MC-152728
-            if (version.isNewerThanOrEquals(ClientVersion.V_1_14_2) && version.isOlderThan(ClientVersion.V_1_21_4)) {
+            if (version.isNewerThanOrEquals(ClientVersion.V_1_14_2) && version != ClientVersion.V_1_21_4) {
                 return;
             }
 
@@ -32,7 +32,7 @@ public class SprintB extends Check implements PostPredictionCheck {
                 return;
             }
 
-            if (player.isSprinting && !player.isSwimming && (player.fluidOnEyes != FluidTag.WATER || version.isOlderThan(ClientVersion.V_1_21_4))) {
+            if (player.isSprinting && !player.isSwimming && (player.fluidOnEyes != FluidTag.WATER || version != ClientVersion.V_1_21_4)) {
                 flagAndAlertWithSetback();
             } else reward();
         }

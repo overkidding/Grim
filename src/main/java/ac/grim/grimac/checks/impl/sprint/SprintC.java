@@ -23,7 +23,7 @@ public class SprintC extends Check implements PostPredictionCheck {
             ClientVersion client = player.getClientVersion();
 
             // https://bugs.mojang.com/browse/MC-152728
-            if (client.isNewerThanOrEquals(ClientVersion.V_1_14_2) && client.isOlderThan(ClientVersion.V_1_21_4)) {
+            if (client.isNewerThanOrEquals(ClientVersion.V_1_14_2) && client != ClientVersion.V_1_21_4) {
                 return;
             }
 
