@@ -5,7 +5,6 @@ import ac.grim.grimac.checks.CheckData;
 import ac.grim.grimac.checks.type.PostPredictionCheck;
 import ac.grim.grimac.player.GrimPlayer;
 import ac.grim.grimac.utils.anticheat.update.PredictionComplete;
-import ac.grim.grimac.utils.enums.FluidTag;
 import ac.grim.grimac.utils.enums.Pose;
 import com.github.retrooper.packetevents.protocol.player.ClientVersion;
 
@@ -17,8 +16,6 @@ public class SprintB extends Check implements PostPredictionCheck {
 
     @Override
     public void onPredictionComplete(final PredictionComplete predictionComplete) {
-        if (!predictionComplete.isChecked()) return;
-
         if (player.isSlowMovement && player.sneakingSpeedMultiplier < 0.8f) {
             ClientVersion version = player.getClientVersion();
 
@@ -32,7 +29,7 @@ public class SprintB extends Check implements PostPredictionCheck {
                 return;
             }
 
-            if (player.isSprinting && !player.isSwimming && (player.fluidOnEyes != FluidTag.WATER || version != ClientVersion.V_1_21_4)) {
+            if (player.isSprinting && (!player.wasTouchingWater || version.isOlderThan(ClientVersion.V_1_13))) {
                 flagAndAlertWithSetback();
             } else reward();
         }
