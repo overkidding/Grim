@@ -3,9 +3,12 @@ package ac.grim.grimac.utils.anticheat;
 import ac.grim.grimac.GrimAPI;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.logging.Logger;
 
 @UtilityClass
@@ -37,6 +40,23 @@ public class LogUtil {
 
     public void console(final Component info) {
         MessageUtil.sendMessage(Bukkit.getConsoleSender(), info);
+    }
+
+    public static void exception(String description, Throwable throwable) {
+        getLogger().severe(description + ": " + ExceptionUtils.getStackTrace(throwable));
+    }
+
+    private static String getStackTrace(Throwable throwable) {
+        String message = throwable.getMessage();
+        try (StringWriter sw = new StringWriter()) {
+            try (PrintWriter pw = new PrintWriter(sw)) {
+                throwable.printStackTrace(pw);
+                message = sw.toString();
+            }
+        } catch (Exception ignored) {
+            ignored.printStackTrace();
+        }
+        return message;
     }
 
 }
