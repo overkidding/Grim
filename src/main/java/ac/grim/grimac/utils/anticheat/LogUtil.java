@@ -3,7 +3,6 @@ package ac.grim.grimac.utils.anticheat;
 import ac.grim.grimac.GrimAPI;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -43,7 +42,7 @@ public class LogUtil {
     }
 
     public static void exception(String description, Throwable throwable) {
-        getLogger().severe(description + ": " + ExceptionUtils.getStackTrace(throwable));
+        getLogger().severe(description + ": " + getStackTrace(throwable));
     }
 
     private static String getStackTrace(Throwable throwable) {
