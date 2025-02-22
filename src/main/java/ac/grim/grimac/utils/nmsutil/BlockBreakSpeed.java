@@ -35,8 +35,8 @@ public class BlockBreakSpeed {
         }
 
         if (player.gamemode == GameMode.CREATIVE) {
-            // A creative mode player cannot break things with a sword!
-            if (tool.getType().hasAttribute(ItemTypes.ItemAttribute.SWORD)) {
+            // players in creative mode cannot mine with certain items
+            if (tool.getType().hasAttribute(ItemTypes.ItemAttribute.SWORD) || tool.getType() == ItemTypes.MACE && player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_20_5)) {
                 return 0;
             }
             // Instabreak
