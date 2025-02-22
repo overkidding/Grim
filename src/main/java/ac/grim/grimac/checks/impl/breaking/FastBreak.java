@@ -72,7 +72,7 @@ public class FastBreak extends Check implements BlockBreakCheck {
             }
 
             if (blockDelayBalance > 1000) { // If more than a second of advantage
-                if (flagAndAlert("delay=" + breakDelay) && shouldModifyPackets()) {
+                if (flagAndAlert("delay=" + breakDelay + ", type=" + blockBreak.block.getType()) && shouldModifyPackets()) {
                     blockBreak.cancel();
                 }
             }
@@ -94,7 +94,7 @@ public class FastBreak extends Check implements BlockBreakCheck {
             }
 
             if (blockBreakBalance > 1000) { // If more than a second of advantage
-                if (flagAndAlert("diff=" + diff + ", balance=" + blockBreakBalance) && shouldModifyPackets()) {
+                if (flagAndAlert("diff=" + diff + ", balance=" + blockBreakBalance + ", type=" + blockBreak.block.getType()) && shouldModifyPackets()) {
                     blockBreak.cancel();
                 }
             }
