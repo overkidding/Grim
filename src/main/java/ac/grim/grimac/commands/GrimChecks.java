@@ -37,7 +37,7 @@ public class GrimChecks extends BaseCommand {
         String formattedSeparator = MessageUtil.format(separator);
 
         // Make this async to be 100% sure that it will not cause any lag
-        CompletableFuture.supplyAsync(() ->{
+        CompletableFuture.supplyAsync(() -> {
             List<String> messageLines = new ArrayList<>();
             messageLines.add(MessageUtil.format(typeSpace));
             for (CheckType type : CheckType.values()) {
