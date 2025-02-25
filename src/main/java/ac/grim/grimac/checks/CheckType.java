@@ -1,6 +1,6 @@
 package ac.grim.grimac.checks;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public enum CheckType {
     MOVEMENT,
@@ -10,7 +10,8 @@ public enum CheckType {
     WORLD,
     OTHER;
 
-    public String displayName() {
+    @Override
+    public String toString() {
         return StringUtils.capitalize(this.name().toLowerCase());
     }
 

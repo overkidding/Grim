@@ -47,7 +47,7 @@ public class GrimChecks extends BaseCommand {
 
                 messageLines.add(MessageUtil.format(GrimAPI.INSTANCE.getConfigManager().getConfig()
                         .getStringElse("checks.type", " &8» &f%checkType% checks:")
-                        .replace("%checkType%", type.displayName())));
+                        .replace("%checkType%", type.toString())));
 
                 if (checks.isEmpty()) {
                     messageLines.add(MessageUtil.format(typeNone));
